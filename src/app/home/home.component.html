@@ -1,0 +1,67 @@
+<div style="display: flex; justify-content: center; max-height: 425px; padding: 20px; gap:20px">
+  <div style="flex-grow: 1">
+    <h1>Search Query:</h1>
+    <form [formGroup]="form" (ngSubmit)="search()">
+      <mat-form-field style="width: 500px">
+        <mat-label>Search Query</mat-label>
+        <textarea matInput formControlName="query" style="max-height: 500px"></textarea>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button color="primary" type="submit">Search</button>
+      </div>
+
+    </form>
+  </div>
+  <mat-card style="width: 300px">
+    <mat-card-header>
+      <mat-card-title>Connection logs</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="padding: 20px; height: 200px; display: flex; flex-direction: column-reverse">
+      @for (m of websocketService.websocketLogs; track m.message) {
+        <p>
+          <span [style.color]="'red'">{{m.senderID}}:</span> <span>{{m.message}}</span> <span [style.color]="channelTypeColorMap[m.channelType]">({{m.channelType}})</span>
+        </p>
+      } @empty {
+        <p style="color: white">No log data yet</p>
+      }
+    </mat-card-content>
+
+  </mat-card>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 20px; padding: 20px" *ngIf="resultFile.length > 0">
+  <h1>Results:</h1>
+  @for (f of resultFile; track f.id) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{f.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <span [style.color]="'red'">ID: </span> <span>{{f.id}}</span>
+        </p>
+        <p>
+          <span [style.color]="'red'">Type: </span> <span>{{f.file_type}}</span>
+        </p>
+        <p>
+          <span [style.color]="'red'">Project_id: </span> <span>{{f.project_id}}</span>
+        </p>
+        <p>
+          <span [style.color]="'red'">Category: </span> <span>{{f.file_category}}</span>
+        </p>
+
+        <mat-card>
+          <mat-card-content [style.background]="'black'" [style.color]="'white'">
+            <p [innerHtml]="f.headline"></p>
+          </mat-card-content>
+        </mat-card>
+
+      </mat-card-content>
+      <mat-card-footer>
+        <button mat-raised-button color="primary" (click)="downloadFile(f)">Download</button>
+      </mat-card-footer>
+    </mat-card>
+  } @empty {
+    <p>No results yet</p>
+  }
+</div>

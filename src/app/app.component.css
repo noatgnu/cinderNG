@@ -1,0 +1,29 @@
+.center {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 200px;
+  width: 100%;
+}
+
+
+.middle {
+  margin: auto
+}
+
+/* create a pastel text gradient */
+.text-gradient-pastel {
+  background: -webkit-linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-size: 100px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.copyright-footer {
+  font-size: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #bb8182;
+}
