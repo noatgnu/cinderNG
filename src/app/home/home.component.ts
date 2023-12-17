@@ -40,13 +40,13 @@ export class HomeComponent {
     const resultConnection = this.websocketService.connectResult()
     sendConnection.subscribe(data => {
       if (data.targetID === this.websocketService.personalID) {
-        this.websocketService.websocketLogs.push(data)
+        this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
       }
     })
 
     resultConnection.subscribe(data => {
       if (data.targetID === this.websocketService.personalID) {
-        this.websocketService.websocketLogs.push(data)
+        this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
         if (data.data) {
           this.resultFile = data.data
           console.log(data.data)

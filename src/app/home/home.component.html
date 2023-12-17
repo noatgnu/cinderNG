@@ -49,17 +49,21 @@
         <p>
           <span [style.color]="'red'">Category: </span> <span>{{f.file_category}}</span>
         </p>
+        <div style="padding: 20px">
+          <mat-card>
+            <mat-card-content [style.background]="'black'" [style.color]="'white'">
+              <p>Query context</p>
 
-        <mat-card>
-          <mat-card-content [style.background]="'black'" [style.color]="'white'">
-            <p [innerHtml]="f.headline"></p>
-          </mat-card-content>
-        </mat-card>
+              <p [innerHtml]="f.headline"></p>
+            </mat-card-content>
+          </mat-card>
+        </div>
 
+        <mat-card-footer>
+          <button mat-raised-button color="primary" (click)="downloadFile(f)">Download</button>
+        </mat-card-footer>
       </mat-card-content>
-      <mat-card-footer>
-        <button mat-raised-button color="primary" (click)="downloadFile(f)">Download</button>
-      </mat-card-footer>
+
     </mat-card>
   } @empty {
     <p>No results yet</p>
