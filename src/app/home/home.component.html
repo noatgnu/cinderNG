@@ -2,10 +2,17 @@
   <div style="flex-grow: 1">
     <h1>Search Query:</h1>
     <form [formGroup]="form" (ngSubmit)="search()">
-      <mat-form-field style="width: 500px">
-        <mat-label>Search Query</mat-label>
-        <textarea matInput formControlName="query" style="max-height: 500px"></textarea>
-      </mat-form-field>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap">
+        <mat-form-field style="width: 400px">
+          <mat-label>Search text-file</mat-label>
+          <textarea matInput formControlName="query" style="max-height: 400px"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description field</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+
       <div>
         <button mat-raised-button color="primary" type="submit">Search</button>
       </div>
@@ -16,7 +23,7 @@
     <mat-card-header>
       <mat-card-title>Connection logs</mat-card-title>
     </mat-card-header>
-    <mat-card-content style="padding: 20px; height: 200px; display: flex; flex-direction: column-reverse">
+    <mat-card-content style="padding: 20px; height: 200px; display: flex; flex-direction: column-reverse; overflow: auto">
       @for (m of websocketService.websocketLogs; track m.message) {
         <p>
           <span [style.color]="'red'">{{m.senderID}}:</span> <span>{{m.message}}</span> <span [style.color]="channelTypeColorMap[m.channelType]">({{m.channelType}})</span>
@@ -29,14 +36,31 @@
   </mat-card>
 </div>
 
-<div style="display: flex; flex-direction: column; gap: 20px; padding: 20px" *ngIf="resultFile.length > 0">
+<div style="padding: 20px">
+  <form [formGroup]="form" *ngIf="servers.length >0">
+    <mat-form-field>
+      <mat-label>Server</mat-label>
+      <mat-select formControlName="server">
+        @for (s of servers; track s) {
+          <mat-option [value]="s">{{s}}</mat-option>
+        } @empty {
+          <mat-option [value]="null">No servers</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+
+
+<div style="display: flex; flex-direction: column; gap: 20px; padding: 20px" *ngIf="currentDisplay.length > 0">
   <h1>Results:</h1>
-  @for (f of resultFile; track f.id) {
+  @for (f of currentDisplay; track f.id) {
     <mat-card>
       <mat-card-header>
         <mat-card-title>{{f.name}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
+
         <p>
           <span [style.color]="'red'">ID: </span> <span>{{f.id}}</span>
         </p>
@@ -49,6 +73,9 @@
         <p>
           <span [style.color]="'red'">Category: </span> <span>{{f.file_category}}</span>
         </p>
+        <p>
+          <span [style.color]="'red'">Description: </span> <span>{{f.description}}</span>
+        </p>
         <div style="padding: 20px">
           <mat-card>
             <mat-card-content [style.background]="'black'" [style.color]="'white'">
@@ -58,10 +85,23 @@
             </mat-card-content>
           </mat-card>
         </div>
+        @if (form.value["server"] === 'host') {
+          <mat-card-footer>
+            <button mat-raised-button color="primary" (click)="downloadFile(f)">Download</button>
+          </mat-card-footer>
+        } @else {
+          <mat-card-footer>
+            <div style="display: flex; gap: 20px">
+              <button mat-raised-button color="accent" (click)="requestFile(f)">Request</button>
+              @if (uploadedFileMap[form.value["server"]]){
+                @if (uploadedFileMap[form.value["server"]][f.id]) {
+                  <button mat-raised-button color="primary" (click)="downloadFile(uploadedFileMap[form.value['server']][f.id])">Download</button>
+                }
+              }
+            </div>
+          </mat-card-footer>
+        }
 
-        <mat-card-footer>
-          <button mat-raised-button color="primary" (click)="downloadFile(f)">Download</button>
-        </mat-card-footer>
       </mat-card-content>
 
     </mat-card>

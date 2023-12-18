@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {ProjectFile} from "../project-file";
 import {environment} from "../../environments/environment";
+import {MatSelectModule} from "@angular/material/select";
 
 @Component({
   selector: 'app-home',
@@ -17,10 +18,11 @@ import {environment} from "../../environments/environment";
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
-    NgIf
+    NgIf,
+    MatSelectModule
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   channelTypeColorMap: {[key:string]: string} = {
@@ -30,11 +32,15 @@ export class HomeComponent {
 
   form: FormGroup = this.fb.group({
     query: [''],
+    description: [''],
+    server: [''],
   })
 
-  resultFile: ProjectFile[] = []
+  resultFile: {[key:string]: ProjectFile[]} = {}
   baseURL = environment.baseURL
-
+  servers: string[] = []
+  currentDisplay: ProjectFile[] = []
+  uploadedFileMap: {[key:string]: {[key: string]: ProjectFile}} = {}
   constructor(public websocketService: WebsocketService, private fb: FormBuilder) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
@@ -48,11 +54,26 @@ export class HomeComponent {
       if (data.targetID === this.websocketService.personalID) {
         this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
         if (data.data) {
-          this.resultFile = data.data
-          console.log(data.data)
+          if (data.requestType === 'file-upload') {
+            if (!this.uploadedFileMap[data.senderID]) {
+              this.uploadedFileMap[data.senderID] = {}
+            }
+            this.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
+            console.log(this.uploadedFileMap)
+          } else {
+            this.resultFile[data.senderID] = data.data
+            this.servers = Object.keys(this.resultFile)
+          }
+
         }
       }
 
+    })
+
+    this.form.controls['server'].valueChanges.subscribe(value => {
+      if (value) {
+        this.currentDisplay = this.resultFile[value]
+      }
     })
 
   }
@@ -63,20 +84,38 @@ export class HomeComponent {
       channelType: 'user-send',
       senderID: this.websocketService.personalID,
       targetID: 'host',
-      message: query,
+      message: 'request sent',
       requestType: 'user-search-query',
-      data: {},
+      data: {
+        term: query,
+        description: this.form.controls['description'].value,
+      },
     }
+    this.websocketService.websocketLogs = [message, ...this.websocketService.websocketLogs]
     this.websocketService.sendConnection?.next(message)
   }
 
   downloadFile(f: ProjectFile) {
     const a = document.createElement('a')
-    a.href = `${this.baseURL}/api/files/${f.id}/download`
+    a.href = `${this.baseURL}/api/files/${f.id}/session/${this.websocketService.sessionID}/download`
     a.download = f.name
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
+  }
 
+  requestFile(f: ProjectFile) {
+    const message = {
+      'message': "request sent",
+      'requestType': "user-file-request",
+      'senderID': this.websocketService.personalID,
+      'targetID': "host",
+      'channelType': "file-request",
+      'data': f,
+      'clientID': this.websocketService.personalID,
+      'sessionID': this.websocketService.sessionID,
+    }
+    this.websocketService.websocketLogs = [message, ...this.websocketService.websocketLogs]
+    this.websocketService.sendConnection?.next(message)
   }
 }
