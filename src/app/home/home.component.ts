@@ -34,6 +34,7 @@ export class HomeComponent {
     query: [''],
     description: [''],
     server: [''],
+    pyreName: ['public'],
   })
 
   resultFile: {[key:string]: ProjectFile[]} = {}
@@ -86,6 +87,9 @@ export class HomeComponent {
       targetID: 'host',
       message: 'request sent',
       requestType: 'user-search-query',
+      sessionID: this.websocketService.sessionID,
+      clientID: this.websocketService.personalID,
+      pyreName: this.form.value['pyreName'],
       data: {
         term: query,
         description: this.form.controls['description'].value,
@@ -114,6 +118,7 @@ export class HomeComponent {
       'data': f,
       'clientID': this.websocketService.personalID,
       'sessionID': this.websocketService.sessionID,
+      'pyreName': this.form.value['pyreName'],
     }
     this.websocketService.websocketLogs = [message, ...this.websocketService.websocketLogs]
     this.websocketService.sendConnection?.next(message)

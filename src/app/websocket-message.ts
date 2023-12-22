@@ -5,4 +5,7 @@ export interface WebsocketMessage {
   targetID: string;
   channelType: string;
   data: any;
+  clientID: string;
+  sessionID: string;
+  pyreName: string;
 }
