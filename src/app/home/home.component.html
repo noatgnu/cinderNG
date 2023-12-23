@@ -52,7 +52,7 @@
 </div>
 
 
-<div style="display: flex; flex-direction: column; gap: 20px; padding: 20px" *ngIf="currentDisplay.length > 0">
+<div style="display: flex; flex-direction: column; gap: 20px; padding: 20px" *ngIf="currentDisplay.count() > 0">
   <h1>Results:</h1>
   @for (f of currentDisplay; track f.id) {
     <mat-card>

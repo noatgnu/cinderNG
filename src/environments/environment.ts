@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseURL: "https://corpusx.muttsu.xyz",
+  baseURL: "https://corpusx.caprover.yottsu.xyz",
 };

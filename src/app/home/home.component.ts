@@ -8,6 +8,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {ProjectFile} from "../project-file";
 import {environment} from "../../environments/environment";
 import {MatSelectModule} from "@angular/material/select";
+import {DataFrame, IDataFrame} from "data-forge";
 
 @Component({
   selector: 'app-home',
@@ -37,10 +38,10 @@ export class HomeComponent {
     pyreName: ['public'],
   })
 
-  resultFile: {[key:string]: ProjectFile[]} = {}
+  resultFile: {[key:string]: IDataFrame<number, ProjectFile>} = {}
   baseURL = environment.baseURL
   servers: string[] = []
-  currentDisplay: ProjectFile[] = []
+  currentDisplay:IDataFrame<number, ProjectFile> = new DataFrame()
   uploadedFileMap: {[key:string]: {[key: string]: ProjectFile}} = {}
   constructor(public websocketService: WebsocketService, private fb: FormBuilder) {
     const sendConnection = this.websocketService.connectSend()
@@ -62,7 +63,8 @@ export class HomeComponent {
             this.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
             console.log(this.uploadedFileMap)
           } else {
-            this.resultFile[data.senderID] = data.data
+            const df: IDataFrame<number, ProjectFile> = new DataFrame(data.data)
+            this.resultFile[data.senderID] = df
             this.servers = Object.keys(this.resultFile)
           }
 
