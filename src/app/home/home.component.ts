@@ -8,7 +8,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {ProjectFile} from "../project-file";
 import {environment} from "../../environments/environment";
 import {MatSelectModule} from "@angular/material/select";
-import {DataFrame, IDataFrame} from "data-forge";
+import {DataFrame, IDataFrame, ISeries, Series} from "data-forge";
+import {FileViewComponent} from "../file-view/file-view.component";
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ import {DataFrame, IDataFrame} from "data-forge";
     ReactiveFormsModule,
     MatButtonModule,
     NgIf,
-    MatSelectModule
+    MatSelectModule,
+    FileViewComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -41,7 +43,8 @@ export class HomeComponent {
   resultFile: {[key:string]: IDataFrame<number, ProjectFile>} = {}
   baseURL = environment.baseURL
   servers: string[] = []
-  currentDisplay:IDataFrame<number, ProjectFile> = new DataFrame()
+  currentDisplay:ISeries<number, IDataFrame<number, ProjectFile>> = new Series()
+
   uploadedFileMap: {[key:string]: {[key: string]: ProjectFile}} = {}
   constructor(public websocketService: WebsocketService, private fb: FormBuilder) {
     const sendConnection = this.websocketService.connectSend()
@@ -57,14 +60,12 @@ export class HomeComponent {
         this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
         if (data.data) {
           if (data.requestType === 'file-upload') {
-            if (!this.uploadedFileMap[data.senderID]) {
-              this.uploadedFileMap[data.senderID] = {}
+            if (!this.websocketService.uploadedFileMap[data.senderID]) {
+              this.websocketService.uploadedFileMap[data.senderID] = {}
             }
-            this.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
-            console.log(this.uploadedFileMap)
+            this.websocketService.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
           } else {
-            const df: IDataFrame<number, ProjectFile> = new DataFrame(data.data)
-            this.resultFile[data.senderID] = df
+            this.resultFile[data.senderID] = new DataFrame(data.data)
             this.servers = Object.keys(this.resultFile)
           }
 
@@ -75,7 +76,7 @@ export class HomeComponent {
 
     this.form.controls['server'].valueChanges.subscribe(value => {
       if (value) {
-        this.currentDisplay = this.resultFile[value]
+        this.currentDisplay = this.resultFile[value].groupBy((f: ProjectFile) => f.id)
       }
     })
 
@@ -96,31 +97,6 @@ export class HomeComponent {
         term: query,
         description: this.form.controls['description'].value,
       },
-    }
-    this.websocketService.websocketLogs = [message, ...this.websocketService.websocketLogs]
-    this.websocketService.sendConnection?.next(message)
-  }
-
-  downloadFile(f: ProjectFile) {
-    const a = document.createElement('a')
-    a.href = `${this.baseURL}/api/files/${f.id}/session/${this.websocketService.sessionID}/download`
-    a.download = f.name
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }
-
-  requestFile(f: ProjectFile) {
-    const message = {
-      'message': "request sent",
-      'requestType': "user-file-request",
-      'senderID': this.websocketService.personalID,
-      'targetID': "host",
-      'channelType': "file-request",
-      'data': f,
-      'clientID': this.websocketService.personalID,
-      'sessionID': this.websocketService.sessionID,
-      'pyreName': this.form.value['pyreName'],
     }
     this.websocketService.websocketLogs = [message, ...this.websocketService.websocketLogs]
     this.websocketService.sendConnection?.next(message)

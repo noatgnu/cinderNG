@@ -54,57 +54,8 @@
 
 <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px" *ngIf="currentDisplay.count() > 0">
   <h1>Results:</h1>
-  @for (f of currentDisplay; track f.id) {
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>{{f.name}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-
-        <p>
-          <span [style.color]="'red'">ID: </span> <span>{{f.id}}</span>
-        </p>
-        <p>
-          <span [style.color]="'red'">Type: </span> <span>{{f.file_type}}</span>
-        </p>
-        <p>
-          <span [style.color]="'red'">Project_id: </span> <span>{{f.project_id}}</span>
-        </p>
-        <p>
-          <span [style.color]="'red'">Category: </span> <span>{{f.file_category}}</span>
-        </p>
-        <p>
-          <span [style.color]="'red'">Description: </span> <span>{{f.description}}</span>
-        </p>
-        <div style="padding: 20px">
-          <mat-card>
-            <mat-card-content [style.background]="'black'" [style.color]="'white'">
-              <p>Query context</p>
-
-              <p [innerHtml]="f.headline"></p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-        @if (form.value["server"] === 'host') {
-          <mat-card-footer>
-            <button mat-raised-button color="primary" (click)="downloadFile(f)">Download</button>
-          </mat-card-footer>
-        } @else {
-          <mat-card-footer>
-            <div style="display: flex; gap: 20px">
-              <button mat-raised-button color="accent" (click)="requestFile(f)">Request</button>
-              @if (uploadedFileMap[form.value["server"]]){
-                @if (uploadedFileMap[form.value["server"]][f.id]) {
-                  <button mat-raised-button color="primary" (click)="downloadFile(uploadedFileMap[form.value['server']][f.id])">Download</button>
-                }
-              }
-            </div>
-          </mat-card-footer>
-        }
-
-      </mat-card-content>
-
-    </mat-card>
+  @for (f of currentDisplay; track f) {
+    <app-file-view [data]="f" [server]="form.value['server']" [pyreName]="form.value['pyreName']"></app-file-view>
   } @empty {
     <p>No results yet</p>
   }

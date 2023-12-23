@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import {environment} from "../environments/environment";
 import {WebsocketMessage} from "./websocket-message";
+import {ProjectFile} from "./project-file";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class WebsocketService {
   resultConnection: WebSocketSubject<WebsocketMessage>|undefined
   baseURL: string = environment.baseURL
   websocketLogs: WebsocketMessage[] = []
+  uploadedFileMap: {[key:string]: {[key: string]: ProjectFile}} = {}
   constructor() { }
 
   connectSend() {

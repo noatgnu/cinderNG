@@ -1,0 +1,56 @@
+@if (file) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{file.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+      <p>
+        <span [style.color]="'red'">ID: </span> <span>{{file.id}}</span>
+      </p>
+      <p>
+        <span [style.color]="'red'">Type: </span> <span>{{file.file_type}}</span>
+      </p>
+      <p>
+        <span [style.color]="'red'">Project_id: </span> <span>{{file.project_id}}</span>
+      </p>
+      <p>
+        <span [style.color]="'red'">Category: </span> <span>{{file.file_category}}</span>
+      </p>
+      <p>
+        <span [style.color]="'red'">Description: </span> <span>{{file.description}}</span>
+      </p>
+      @for (f of data; track f.id) {
+        <div style="padding: 20px">
+          <mat-card>
+            <mat-card-content [style.background]="'black'" [style.color]="'white'">
+              <p>Query context</p>
+              <p [innerHtml]="f.headline"></p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      }
+
+      @if (server === 'host') {
+        <mat-card-footer>
+          <button mat-raised-button color="primary" (click)="downloadFileHandler()">Download</button>
+        </mat-card-footer>
+      } @else {
+        <mat-card-footer>
+          <div style="display: flex; gap: 20px">
+            <button mat-raised-button color="accent" (click)="requestFileHandler()">Request</button>
+            @if (websocket.uploadedFileMap[server]){
+              @if (websocket.uploadedFileMap[server][file.id]) {
+                <button mat-raised-button color="primary" (click)="downloadFileHandler()">Download</button>
+              }
+            }
+          </div>
+        </mat-card-footer>
+
+      }
+
+    </mat-card-content>
+
+  </mat-card>
+}
+
