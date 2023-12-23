@@ -70,8 +70,9 @@ export class FileViewComponent {
 
   }
   handlePageEvent(e: PageEvent) {
-    const pageIndex = e.pageIndex
+    const pageIndex = e.pageIndex + 1
     const pageSize = e.pageSize
+    console.log(pageIndex, pageSize)
     this.displayData = this._data.skip(pageIndex * pageSize).take(pageSize)
   }
 }
