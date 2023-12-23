@@ -73,6 +73,10 @@ export class FileViewComponent {
     const pageIndex = e.pageIndex
     const pageSize = e.pageSize
     console.log(pageIndex, pageSize)
-    this.displayData = this._data.skip(pageIndex * pageSize).take(pageSize)
+    if (pageIndex * pageSize > this._data.count()) {
+      this.displayData = this._data.skip(pageIndex * pageSize)
+    } else {
+      this.displayData = this._data.skip(pageIndex * pageSize).take(pageSize)
+    }
   }
 }
