@@ -20,7 +20,12 @@
       <p>
         <span [style.color]="'red'">Description: </span> <span>{{file.description}}</span>
       </p>
-      @for (f of data; track f.id) {
+      <mat-paginator [length]="data.count()"
+                     [pageSize]="pageSize"
+                     (page)="handlePageEvent($event)"
+                     aria-label="Select page">
+      </mat-paginator>
+      @for (f of displayData; track f.id) {
         <div style="padding: 20px">
           <mat-card>
             <mat-card-content [style.background]="'black'" [style.color]="'white'">

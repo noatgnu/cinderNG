@@ -5,13 +5,15 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {WebsocketService} from "../websocket.service";
 import {environment} from "../../environments/environment";
+import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-file-view',
   standalone: true,
   imports: [
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatPaginatorModule
   ],
   templateUrl: './file-view.component.html',
   styleUrl: './file-view.component.scss'
@@ -20,13 +22,15 @@ export class FileViewComponent {
   baseURL = environment.baseURL
   private _data: IDataFrame<number, ProjectFile> = new DataFrame()
   file: ProjectFile|undefined = undefined
+  pageSize = 10
   @Input() set data(value: IDataFrame<number, ProjectFile>) {
     this._data = value
     if (this._data.count() > 0) {
       this.file = this._data.first()
+      this.displayData = this._data.head(this.pageSize)
     }
   }
-
+  displayData: IDataFrame<number, ProjectFile> = new DataFrame()
   get data(): IDataFrame<number, ProjectFile> {
     return this._data
   }
@@ -64,5 +68,10 @@ export class FileViewComponent {
       document.body.removeChild(a)
     }
 
+  }
+  handlePageEvent(e: PageEvent) {
+    const pageIndex = e.pageIndex
+    const pageSize = e.pageSize
+    this.displayData = this._data.skip(pageIndex * pageSize).take(pageSize)
   }
 }
