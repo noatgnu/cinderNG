@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {environment} from "../environments/environment";
+import {SearchResult} from "./search-result";
+import {ProjectFileSearchResult} from "./project-file";
 
 @Injectable({
   providedIn: 'root',
@@ -14,5 +16,9 @@ export class WebService {
 
   getSessionID() {
     return this.http.get<string>(`${this.baseURL}/api/websockets/session_id`, {responseType: "json", observe: "body"})
+  }
+
+  getSearchResult(result_id: number, session_id: string) {
+    return this.http.get<ProjectFileSearchResult[]>(`${this.baseURL}/api/search_result/${result_id}/${session_id}/download`, {responseType: "json", observe: "body"})
   }
 }

@@ -11,3 +11,8 @@ export interface ProjectFile {
   path: string[];
   project_id: number;
 }
+
+export interface ProjectFileSearchResult {
+  id: number;
+  data: ProjectFile[];
+}

@@ -5,11 +5,13 @@ import {NgIf, NgStyle} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
-import {ProjectFile} from "../project-file";
+import {ProjectFile, ProjectFileSearchResult} from "../project-file";
 import {environment} from "../../environments/environment";
 import {MatSelectModule} from "@angular/material/select";
 import {DataFrame, IDataFrame, ISeries, Series} from "data-forge";
 import {FileViewComponent} from "../file-view/file-view.component";
+import {SearchResult} from "../search-result";
+import {WebService} from "../web.service";
 
 @Component({
   selector: 'app-home',
@@ -46,7 +48,8 @@ export class HomeComponent {
   currentDisplay:ISeries<number, IDataFrame<number, ProjectFile>> = new Series()
 
   uploadedFileMap: {[key:string]: {[key: string]: ProjectFile}} = {}
-  constructor(public websocketService: WebsocketService, private fb: FormBuilder) {
+  resultMap: {[key: string]: SearchResult} = {}
+  constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
     sendConnection.subscribe(data => {
@@ -66,8 +69,13 @@ export class HomeComponent {
             }
             this.websocketService.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
           } else {
-            this.resultFile[data.senderID] = new DataFrame(data.data)
+            this.resultMap[data.senderID] = data.data
             this.servers = Object.keys(this.resultFile)
+            if (data.senderID === "host") {
+              this.web.getSearchResult(data.data["id"], this.websocketService.sessionID).subscribe((result: ProjectFileSearchResult[]) => {
+                console.log(result)
+              })
+            }
           }
 
         }
