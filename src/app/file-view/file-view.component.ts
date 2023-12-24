@@ -23,7 +23,7 @@ export class FileViewComponent {
   private _data: IDataFrame<number, ProjectFile> = new DataFrame()
   file: ProjectFile|undefined = undefined
   pageSize = 10
-  @Input() set data(value: ProjectFile[]) {
+  @Input() set data(value: any) {
     this._data = new DataFrame(value)
     if (this._data.count() > 0) {
       this.file = this._data.first()

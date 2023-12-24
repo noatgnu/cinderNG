@@ -70,6 +70,7 @@ export class HomeComponent {
           } else if (data.requestType === 'search') {
             this.resultMap[data.senderID] = data.data
             this.servers = Object.keys(this.resultFile)
+            console.log(this.servers)
             this.form.controls['server'].setValue("host")
             if (data.senderID === "host") {
               this.web.getSearchResult(data.data["id"], this.websocketService.sessionID).subscribe((result: ProjectFileSearchResult[]) => {
@@ -114,4 +115,6 @@ export class HomeComponent {
     this.websocketService.websocketLogs = [message, ...this.websocketService.websocketLogs]
     this.websocketService.sendConnection?.next(message)
   }
+
+  protected readonly DataFrame = DataFrame;
 }
