@@ -69,7 +69,7 @@ export class HomeComponent {
             this.websocketService.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
           } else if (data.requestType === 'search') {
             this.resultMap[data.senderID] = data.data
-            this.servers = Object.keys(this.resultFile)
+            this.servers = Object.keys(this.resultMap)
             console.log(this.servers)
             this.form.controls['server'].setValue("host")
             if (data.senderID === "host") {
