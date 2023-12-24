@@ -56,6 +56,7 @@ export class HomeComponent {
     })
 
     resultConnection.subscribe(data => {
+      console.log(data)
       if (data.targetID === this.websocketService.personalID) {
         this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
         if (data.data) {
