@@ -42,13 +42,12 @@ export class HomeComponent {
     pyreName: ['public'],
   })
 
-  resultFile: {[key:string]: IDataFrame<number, ProjectFile>} = {}
+  resultFile: {[key:string]: IDataFrame<number, ProjectFileSearchResult>} = {}
   baseURL = environment.baseURL
   servers: string[] = []
-  currentDisplay:ISeries<number, IDataFrame<number, ProjectFile>> = new Series()
-
-  uploadedFileMap: {[key:string]: {[key: string]: ProjectFile}} = {}
+  currentDisplay: IDataFrame<number, ProjectFileSearchResult> = new DataFrame()
   resultMap: {[key: string]: SearchResult} = {}
+  firstRow: {[key: string]: ProjectFile} = {}
   constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
@@ -68,12 +67,17 @@ export class HomeComponent {
               this.websocketService.uploadedFileMap[data.senderID] = {}
             }
             this.websocketService.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
-          } else {
+          } else if (data.requestType === 'search') {
             this.resultMap[data.senderID] = data.data
             this.servers = Object.keys(this.resultFile)
+            this.form.controls['server'].setValue("host")
             if (data.senderID === "host") {
               this.web.getSearchResult(data.data["id"], this.websocketService.sessionID).subscribe((result: ProjectFileSearchResult[]) => {
-                console.log(result)
+                this.resultFile[data.senderID] = new DataFrame(result)
+                this.currentDisplay = this.resultFile[data.senderID]
+                for (const i of this.resultFile[data.senderID]) {
+                  this.firstRow[i.id] = i.data[0]
+                }
               })
             }
           }
@@ -85,7 +89,7 @@ export class HomeComponent {
 
     this.form.controls['server'].valueChanges.subscribe(value => {
       if (value) {
-        this.currentDisplay = this.resultFile[value].groupBy((f: ProjectFile) => f.id)
+        this.currentDisplay = this.resultFile[value]
       }
     })
 

@@ -23,8 +23,8 @@ export class FileViewComponent {
   private _data: IDataFrame<number, ProjectFile> = new DataFrame()
   file: ProjectFile|undefined = undefined
   pageSize = 10
-  @Input() set data(value: IDataFrame<number, ProjectFile>) {
-    this._data = value.distinct((value) => value.headline)
+  @Input() set data(value: ProjectFile[]) {
+    this._data = new DataFrame(value)
     if (this._data.count() > 0) {
       this.file = this._data.first()
       this.displayData = this._data.head(this.pageSize)
