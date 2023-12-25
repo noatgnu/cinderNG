@@ -79,6 +79,7 @@ export class HomeComponent {
 
     this.form.controls['server'].valueChanges.subscribe(value => {
       if (value) {
+        console.log(value)
         if (this.resultFile[value]) {
           this.web.getSearchResult(this.resultMap[value]["id"], this.websocketService.sessionID).subscribe((result: ProjectFileSearchResult[]) => {
             this.resultFile[value] = new DataFrame(result)
