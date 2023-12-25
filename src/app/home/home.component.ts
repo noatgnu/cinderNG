@@ -70,18 +70,6 @@ export class HomeComponent {
           } else if (data.requestType === 'search') {
             this.resultMap[data.senderID] = data.data
             this.servers = ["None selected", ...Object.keys(this.resultMap)]
-            if (data.senderID === "host") {
-              this.form.controls['server'].setValue("host")
-              if (data.senderID === "host") {
-                this.web.getSearchResult(data.data["id"], this.websocketService.sessionID).subscribe((result: ProjectFileSearchResult[]) => {
-                  this.resultFile[data.senderID] = new DataFrame(result)
-                  this.currentDisplay = this.resultFile[data.senderID]
-                  for (const i of this.resultFile[data.senderID]) {
-                    this.firstRow[i.id] = i.data[0]
-                  }
-                })
-              }
-            }
           }
 
         }
@@ -92,10 +80,13 @@ export class HomeComponent {
     this.form.controls['server'].valueChanges.subscribe(value => {
       if (value) {
         if (this.resultFile[value]) {
-          this.currentDisplay = this.resultFile[value]
-          for (const i of this.resultFile[value]) {
-            this.firstRow[i.id] = i.data[0]
-          }
+          this.web.getSearchResult(this.resultMap[value]["id"], this.websocketService.sessionID).subscribe((result: ProjectFileSearchResult[]) => {
+            this.resultFile[value] = new DataFrame(result)
+            this.currentDisplay = this.resultFile[value]
+            for (const i of this.resultFile[value]) {
+              this.firstRow[i.id] = i.data[0]
+            }
+          })
         }
       }
     })
