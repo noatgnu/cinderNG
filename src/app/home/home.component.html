@@ -51,12 +51,17 @@
   </form>
 </div>
 
-
-<div style="display: flex; flex-direction: column; gap: 20px; padding: 20px" *ngIf="currentDisplay.count() > 0">
-  <h1>Results:</h1>
-  @for (f of currentDisplay; track f) {
-    <app-file-view [data]="f.data" [server]="form.value['server']" [pyreName]="form.value['pyreName']"></app-file-view>
-  } @empty {
-    <p>No results yet</p>
+@if (currentDisplay) {
+  @if (currentDisplay.count() > 0) {
+    <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
+      <h1>Results:</h1>
+      @for (f of currentDisplay; track f) {
+        <app-file-view [data]="f.data" [server]="form.value['server']" [pyreName]="form.value['pyreName']"></app-file-view>
+      } @empty {
+        <p>No results yet</p>
+      }
+    </div>
   }
-</div>
+
+}
+
