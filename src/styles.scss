@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
-$my-primary: mat.define-palette(mat.$red-palette, 500, 100, 900);
+$my-primary: mat.define-palette(mat.$red-palette, 900, 500, 100);
 $my-accent: mat.define-palette(mat.$grey-palette, A200, A100, A400);
 $my-warn: mat.define-palette(mat.$amber-palette, 500, 100, 900);
 
