@@ -79,14 +79,14 @@ export class HomeComponent {
           } else if (data.requestType === 'search') {
             this.resultMap[data.senderID] = data.data
             this.servers = ["None selected", ...Object.keys(this.resultMap)]
+            if (this.searchingServers.length === this.servers.length -1) {
+              this.searching = false
+            }
           } else if (data.requestType === 'search-started') {
             if (!this.searchingServers.includes(data.senderID)) {
               this.searchingServers.push(data.senderID)
-              this.searchCompleted[data.senderID] = false
-              if (this.searchingServers.length === this.servers.length -1) {
-                this.searching = false
-              }
             }
+            this.searchCompleted[data.senderID] = false
           }
 
         }
