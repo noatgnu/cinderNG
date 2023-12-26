@@ -35,6 +35,15 @@
 
   </mat-card>
 </div>
+@if (searching) {
+  <div>
+    Search progress
+    @for (s of searchingServers; track s) {
+      <p>{{s}}: @if(searchCompleted[s]){<mat-progress-spinner mode="determinate" value="100" color="primary"></mat-progress-spinner>}@else{<mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>} </p>
+    }
+  </div>
+}
+
 
 <div style="padding: 20px">
   <form [formGroup]="form" *ngIf="servers.length >0">

@@ -12,6 +12,7 @@ import {DataFrame, IDataFrame, ISeries, Series} from "data-forge";
 import {FileViewComponent} from "../file-view/file-view.component";
 import {SearchResult} from "../search-result";
 import {WebService} from "../web.service";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ import {WebService} from "../web.service";
     MatButtonModule,
     NgIf,
     MatSelectModule,
-    FileViewComponent
+    FileViewComponent,
+    MatProgressSpinnerModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -48,6 +50,9 @@ export class HomeComponent {
   currentDisplay: IDataFrame<number, ProjectFileSearchResult> = new DataFrame()
   resultMap: {[key: string]: SearchResult} = {}
   firstRow: {[key: string]: ProjectFile} = {}
+  searchingServers: string[] = []
+  searchCompleted: {[key: string]: boolean} = {}
+  searching: boolean = false
   constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
@@ -62,6 +67,10 @@ export class HomeComponent {
       if (data.targetID === this.websocketService.personalID) {
         this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
         if (data.data) {
+          if (data.message === "Results found" || data.message === "No results found") {
+            this.searchCompleted[data.senderID] = true
+
+          }
           if (data.requestType === 'file-upload') {
             if (!this.websocketService.uploadedFileMap[data.senderID]) {
               this.websocketService.uploadedFileMap[data.senderID] = {}
@@ -70,6 +79,14 @@ export class HomeComponent {
           } else if (data.requestType === 'search') {
             this.resultMap[data.senderID] = data.data
             this.servers = ["None selected", ...Object.keys(this.resultMap)]
+          } else if (data.requestType === 'search-started') {
+            if (!this.searchingServers.includes(data.senderID)) {
+              this.searchingServers.push(data.senderID)
+              this.searchCompleted[data.senderID] = false
+              if (this.searchingServers.length === this.servers.length -1) {
+                this.searching = false
+              }
+            }
           }
 
         }
@@ -96,6 +113,12 @@ export class HomeComponent {
   }
 
   search() {
+    this.searching = true
+    this.servers = ["None selected"]
+    this.resultMap = {}
+    this.searchingServers = []
+    this.currentDisplay = new DataFrame()
+    this.firstRow = {}
     const query = this.form.controls['query'].value
     const message = {
       channelType: 'user-send',

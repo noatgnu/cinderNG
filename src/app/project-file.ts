@@ -19,5 +19,20 @@ export interface ProjectFileSearchResult {
 
 export interface SearchResultDownload {
   files: ProjectFileSearchResult[];
-  projects: any[];
+  projects: ProjectSearchResult[];
+}
+
+export interface ProjectSearchResult {
+  id: number;
+  data: Project;
+}
+
+export interface Project {
+  id: number
+  name: string
+  description: string
+  hash: string
+  metadata: any
+  global_id: string
+  headline: string
 }
