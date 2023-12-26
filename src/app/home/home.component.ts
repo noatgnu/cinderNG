@@ -82,8 +82,8 @@ export class HomeComponent {
         console.log(value)
 
         if (this.resultMap[value]) {
-          this.web.getSearchResult(this.resultMap[value]["id"], this.websocketService.sessionID).subscribe((result: ProjectFileSearchResult[]) => {
-            this.resultFile[value] = new DataFrame(result)
+          this.web.getSearchResult(this.resultMap[value]["id"], this.websocketService.sessionID).subscribe((result) => {
+            this.resultFile[value] = new DataFrame(result.files)
             this.currentDisplay = this.resultFile[value]
             for (const i of this.resultFile[value]) {
               this.firstRow[i.id] = i.data[0]

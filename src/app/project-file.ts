@@ -16,3 +16,8 @@ export interface ProjectFileSearchResult {
   id: number;
   data: ProjectFile[];
 }
+
+export interface SearchResultDownload {
+  files: ProjectFileSearchResult[];
+  projects: any[];
+}
