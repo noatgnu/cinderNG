@@ -39,7 +39,9 @@
   <div>
     Search progress
     @for (s of searchingServers; track s) {
-      <p>{{s}}: @if(searchCompleted[s]){<mat-progress-spinner mode="determinate" value="100" color="primary"></mat-progress-spinner>}@else{<mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>} </p>
+      <div style="display: flex">
+        <p>{{s}}</p>: @if(searchCompleted[s]){<mat-progress-spinner mode="determinate" value="100" color="primary" diameter="20"></mat-progress-spinner>}@else{<mat-progress-spinner mode="indeterminate" color="primary" diameter="20"></mat-progress-spinner>}
+      </div>
     }
   </div>
 }
