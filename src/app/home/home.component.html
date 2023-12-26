@@ -36,14 +36,23 @@
   </mat-card>
 </div>
 @if (searching) {
-  <div>
-    Search progress
-    @for (s of searchingServers; track s) {
-      <div style="display: flex">
-        <p>{{s}}</p>: @if(searchCompleted[s]){<mat-progress-spinner mode="determinate" value="100" color="primary" diameter="20"></mat-progress-spinner>}@else{<mat-progress-spinner mode="indeterminate" color="primary" diameter="20"></mat-progress-spinner>}
-      </div>
-    }
+  <div style="padding: 20px">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Search progress</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @for (s of searchingServers; track s) {
+          <div style="display: flex; flex-wrap: wrap; gap: 20px">
+            <div style="display: flex">
+              <p>{{s}}</p>: @if(searchCompleted[s]){ <span style="color: #46a35e">completed</span>}@else{<mat-progress-spinner mode="indeterminate" color="primary" diameter="20"></mat-progress-spinner>}
+            </div>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
   </div>
+
 }
 
 
