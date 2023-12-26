@@ -66,34 +66,31 @@ export class HomeComponent {
       console.log(data)
       if (data.targetID === this.websocketService.personalID) {
         this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
-        if (data.data) {
-          if (data.message === "Results found" || data.message === "No results found") {
-            this.searchCompleted[data.senderID] = true
-            this.resultMap[data.senderID] = data.data
-            if (data.message === "Results found") {
-              this.servers = ["None selected", ...Object.keys(this.resultMap)]
-            }
-            if (Object.values(this.searchCompleted).every((v) => v === true)) {
-              this.searching = false
-            }
+        if (data.message === "Results found" || data.message === "No results found") {
+          this.searchCompleted[data.senderID] = true
+          this.resultMap[data.senderID] = data.data
+          if (data.message === "Results found") {
+            this.servers = ["None selected", ...Object.keys(this.resultMap)]
           }
-          if (data.requestType === 'file-upload') {
-            if (!this.websocketService.uploadedFileMap[data.senderID]) {
-              this.websocketService.uploadedFileMap[data.senderID] = {}
-            }
-            this.websocketService.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
-          } else if (data.requestType === 'search') {
-
-
-          } else if (data.requestType === 'search-started') {
-            console.log(data)
-            if (!this.searchingServers.includes(data.senderID)) {
-              this.searchingServers.push(data.senderID)
-            }
-            this.searchCompleted[data.senderID] = false
-            console.log(this.searchingServers)
+          if (Object.values(this.searchCompleted).every((v) => v === true)) {
+            this.searching = false
           }
+        }
+        if (data.requestType === 'file-upload') {
+          if (!this.websocketService.uploadedFileMap[data.senderID]) {
+            this.websocketService.uploadedFileMap[data.senderID] = {}
+          }
+          this.websocketService.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
+        } else if (data.requestType === 'search') {
 
+
+        } else if (data.requestType === 'search-started') {
+          console.log(data)
+          if (!this.searchingServers.includes(data.senderID)) {
+            this.searchingServers.push(data.senderID)
+          }
+          this.searchCompleted[data.senderID] = false
+          console.log(this.searchingServers)
         }
       }
 
