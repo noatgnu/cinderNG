@@ -69,7 +69,13 @@ export class HomeComponent {
         if (data.data) {
           if (data.message === "Results found" || data.message === "No results found") {
             this.searchCompleted[data.senderID] = true
-
+            this.resultMap[data.senderID] = data.data
+            if (data.message === "Results found") {
+              this.servers = ["None selected", ...Object.keys(this.resultMap)]
+            }
+            if (Object.values(this.searchCompleted).every((v) => v === true)) {
+              this.searching = false
+            }
           }
           if (data.requestType === 'file-upload') {
             if (!this.websocketService.uploadedFileMap[data.senderID]) {
@@ -77,12 +83,10 @@ export class HomeComponent {
             }
             this.websocketService.uploadedFileMap[data.senderID][data.data[0].id] = data.data[1]
           } else if (data.requestType === 'search') {
-            this.resultMap[data.senderID] = data.data
-            this.servers = ["None selected", ...Object.keys(this.resultMap)]
-            if (this.searchingServers.length === this.servers.length -1) {
-              this.searching = false
-            }
+
+
           } else if (data.requestType === 'search-started') {
+            console.log(data)
             if (!this.searchingServers.includes(data.senderID)) {
               this.searchingServers.push(data.senderID)
             }
