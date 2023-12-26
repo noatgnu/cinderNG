@@ -87,6 +87,7 @@ export class HomeComponent {
               this.searchingServers.push(data.senderID)
             }
             this.searchCompleted[data.senderID] = false
+            console.log(this.searchingServers)
           }
 
         }
