@@ -148,7 +148,7 @@ export class HomeComponent {
 
   viewProjectFilterDialog() {
     const dialogRef = this.dialog.open(ProjectFilterDialogComponent)
-    if (!this.resultProject[this.form.value['server']]) {
+    if (this.resultProject[this.form.value['server']]) {
       dialogRef.componentInstance.data = this.resultProject[this.form.value['server']]
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
@@ -163,6 +163,8 @@ export class HomeComponent {
   resetFilter() {
     if (this.resultFile[this.form.value['server']]) {
       this.currentDisplay = this.resultFile[this.form.value['server']]
+    } else {
+      this.currentDisplay = new DataFrame()
     }
   }
 }
