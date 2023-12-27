@@ -5,7 +5,7 @@ import {NgIf, NgStyle} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
-import {ProjectFile, ProjectFileSearchResult} from "../project-file";
+import {ProjectFile, ProjectFileSearchResult, ProjectSearchResult} from "../project-file";
 import {environment} from "../../environments/environment";
 import {MatSelectModule} from "@angular/material/select";
 import {DataFrame, IDataFrame, ISeries, Series} from "data-forge";
@@ -55,6 +55,7 @@ export class HomeComponent {
   searchingServers: string[] = []
   searchCompleted: {[key: string]: boolean} = {}
   searching: boolean = false
+  resultProject: {[key: string]: ProjectSearchResult[]} = {}
   constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService, private dialog: MatDialog) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
@@ -70,8 +71,9 @@ export class HomeComponent {
         this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
         if (data.message === "Results found" || data.message === "No results found") {
           this.searchCompleted[data.senderID] = true
-          this.resultMap[data.senderID] = data.data
+
           if (data.message === "Results found") {
+            this.resultMap[data.senderID] = data.data
             this.servers = ["None selected", ...Object.keys(this.resultMap)]
           }
           if (Object.values(this.searchCompleted).every((v) => v === true)) {
@@ -105,6 +107,7 @@ export class HomeComponent {
         if (this.resultMap[value]) {
           this.web.getSearchResult(this.resultMap[value]["id"], this.websocketService.sessionID).subscribe((result) => {
             this.resultFile[value] = new DataFrame(result.files)
+            this.resultProject[value] = result.projects
             this.currentDisplay = this.resultFile[value]
             for (const i of this.resultFile[value]) {
               this.firstRow[i.id] = i.data[0]
@@ -144,5 +147,6 @@ export class HomeComponent {
 
   viewProjectFilterDialog() {
     const dialogRef = this.dialog.open(ProjectFilterDialogComponent)
+    dialogRef.componentInstance.data = this.resultProject[this.form.value['server']]
   }
 }
