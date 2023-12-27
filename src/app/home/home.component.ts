@@ -109,6 +109,7 @@ export class HomeComponent {
             this.resultFile[value] = new DataFrame(result.files)
             this.resultProject[value] = result.projects
             this.currentDisplay = this.resultFile[value]
+            this.firstRow = {}
             for (const i of this.resultFile[value]) {
               this.firstRow[i.id] = i.data[0]
             }
@@ -147,6 +148,21 @@ export class HomeComponent {
 
   viewProjectFilterDialog() {
     const dialogRef = this.dialog.open(ProjectFilterDialogComponent)
-    dialogRef.componentInstance.data = this.resultProject[this.form.value['server']]
+    if (!this.resultProject[this.form.value['server']]) {
+      dialogRef.componentInstance.data = this.resultProject[this.form.value['server']]
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.currentDisplay = this.resultFile[this.form.value['server']].where((row: ProjectFileSearchResult) => {
+            return result.includes(this.firstRow[row.id].project_id)
+          })
+        }
+      })
+    }
+  }
+
+  resetFilter() {
+    if (this.resultFile[this.form.value['server']]) {
+      this.currentDisplay = this.resultFile[this.form.value['server']]
+    }
   }
 }
