@@ -32,7 +32,6 @@
         <p style="color: white">No log data yet</p>
       }
     </mat-card-content>
-
   </mat-card>
 </div>
 @if (searching) {
@@ -52,11 +51,10 @@
       </mat-card-content>
     </mat-card>
   </div>
-
 }
 
 
-<div style="padding: 20px">
+<div style="display: flex; padding: 20px">
   <form [formGroup]="form" *ngIf="servers.length >0">
     <mat-form-field>
       <mat-label>Server</mat-label>
@@ -69,6 +67,9 @@
       </mat-select>
     </mat-form-field>
   </form>
+  <div>
+    <button mat-raised-button (click)="viewProjectFilterDialog()" color="accent">Filter by projects</button>
+  </div>
 </div>
 
 @if (currentDisplay) {
