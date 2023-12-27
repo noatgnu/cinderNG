@@ -151,7 +151,7 @@ export class HomeComponent {
     if (this.resultProject[this.form.value['server']]) {
       dialogRef.componentInstance.data = this.resultProject[this.form.value['server']]
       dialogRef.afterClosed().subscribe(result => {
-        if (result) {
+        if (result.length > 0 && this.resultFile[this.form.value['server']]) {
           this.currentDisplay = this.resultFile[this.form.value['server']].where((row: ProjectFileSearchResult) => {
             return result.includes(this.firstRow[row.id].project_id)
           })

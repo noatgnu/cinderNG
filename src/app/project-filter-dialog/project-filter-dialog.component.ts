@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {MatListModule} from "@angular/material/list";
 import {ProjectFileSearchResult, ProjectSearchResult} from "../project-file";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 
 @Component({
@@ -14,7 +14,8 @@ import {MatButtonModule} from "@angular/material/button";
     MatListModule,
     MatDialogActions,
     MatDialogClose,
-    MatButtonModule
+    MatButtonModule,
+    ReactiveFormsModule
   ],
   templateUrl: './project-filter-dialog.component.html',
   styleUrl: './project-filter-dialog.component.scss'
