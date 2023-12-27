@@ -13,6 +13,8 @@ import {FileViewComponent} from "../file-view/file-view.component";
 import {SearchResult} from "../search-result";
 import {WebService} from "../web.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatDialog} from "@angular/material/dialog";
+import {ProjectFilterDialogComponent} from "../project-filter-dialog/project-filter-dialog.component";
 
 @Component({
   selector: 'app-home',
@@ -53,7 +55,7 @@ export class HomeComponent {
   searchingServers: string[] = []
   searchCompleted: {[key: string]: boolean} = {}
   searching: boolean = false
-  constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService) {
+  constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService, private dialog: MatDialog) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
     sendConnection.subscribe(data => {
@@ -140,5 +142,7 @@ export class HomeComponent {
     this.websocketService.sendConnection?.next(message)
   }
 
-  protected readonly DataFrame = DataFrame;
+  viewProjectFilterDialog() {
+    const dialogRef = this.dialog.open(ProjectFilterDialogComponent)
+  }
 }
