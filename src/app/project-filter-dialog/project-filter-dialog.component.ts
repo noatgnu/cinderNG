@@ -22,7 +22,9 @@ import {MatButtonModule} from "@angular/material/button";
 })
 export class ProjectFilterDialogComponent {
   @Input() data: ProjectSearchResult[] = []
-
+  @Input() set selected(value: number[]) {
+    this.form.controls["selected"].setValue(value)
+  }
   form: FormGroup = this.fb.group({
     selected: new FormControl<number[]>([])
   })

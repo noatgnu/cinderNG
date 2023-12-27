@@ -45,7 +45,7 @@ export class HomeComponent {
     server: [''],
     pyreName: ['public'],
   })
-
+  selectedProjects: ProjectSearchResult[] = []
   resultFile: {[key:string]: IDataFrame<number, ProjectFileSearchResult>} = {}
   baseURL = environment.baseURL
   servers: string[] = ["None selected"]
@@ -89,7 +89,6 @@ export class HomeComponent {
 
 
         } else if (data.requestType === 'search-started') {
-          console.log(data)
           if (!this.searchingServers.includes(data.senderID)) {
             this.searchingServers.push(data.senderID)
           }
@@ -109,6 +108,7 @@ export class HomeComponent {
             this.resultFile[value] = new DataFrame(result.files)
             this.resultProject[value] = result.projects
             this.currentDisplay = this.resultFile[value]
+            this.selectedProjects = []
             this.firstRow = {}
             for (const i of this.resultFile[value]) {
               this.firstRow[i.id] = i.data[0]
@@ -127,6 +127,7 @@ export class HomeComponent {
     this.searchingServers = []
     this.currentDisplay = new DataFrame()
     this.firstRow = {}
+    this.selectedProjects = []
     const query = this.form.controls['query'].value
     const message = {
       channelType: 'user-send',
@@ -147,11 +148,19 @@ export class HomeComponent {
   }
 
   viewProjectFilterDialog() {
-    const dialogRef = this.dialog.open(ProjectFilterDialogComponent)
     if (this.resultProject[this.form.value['server']]) {
+      const dialogRef = this.dialog.open(ProjectFilterDialogComponent)
       dialogRef.componentInstance.data = this.resultProject[this.form.value['server']]
+      dialogRef.componentInstance.selected = this.selectedProjects.map((data: ProjectSearchResult) => {
+        return data.id
+      })
       dialogRef.afterClosed().subscribe(result => {
         if (result.length > 0 && this.resultFile[this.form.value['server']]) {
+          this.selectedProjects = result.map((data: number) => {
+            return this.resultProject[this.form.value['server']].find((row: ProjectSearchResult) => {
+              return row.id === data
+            })
+          })
           this.currentDisplay = this.resultFile[this.form.value['server']].where((row: ProjectFileSearchResult) => {
             return result.includes(this.firstRow[row.id].project_id)
           })
@@ -162,8 +171,10 @@ export class HomeComponent {
 
   resetFilter() {
     if (this.resultFile[this.form.value['server']]) {
+      this.selectedProjects = []
       this.currentDisplay = this.resultFile[this.form.value['server']]
     } else {
+      this.selectedProjects = []
       this.currentDisplay = new DataFrame()
     }
   }
