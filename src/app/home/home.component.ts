@@ -94,7 +94,7 @@ export class HomeComponent {
             this.searchingServers.push(data.senderID)
           }
           this.searchCompleted[data.senderID] = false
-        } else if (data.requestType === 'file-upload-not-allow') {
+        } else if (data.requestType === 'file-request-not-allowed') {
           this.snackBar.open("File request is not allowed for this node. Please contact "+data.data, "Close")
         }
       }
