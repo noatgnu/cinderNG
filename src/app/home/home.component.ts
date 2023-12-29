@@ -94,6 +94,8 @@ export class HomeComponent {
           }
           this.searchCompleted[data.senderID] = false
           console.log(this.searchingServers)
+        } else if (data.requestType === 'file-upload-not-allow') {
+          console.log("file upload not allow")
         }
       }
 
