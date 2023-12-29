@@ -15,6 +15,7 @@ import {WebService} from "../web.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialog} from "@angular/material/dialog";
 import {ProjectFilterDialogComponent} from "../project-filter-dialog/project-filter-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-home',
@@ -56,7 +57,7 @@ export class HomeComponent {
   searchCompleted: {[key: string]: boolean} = {}
   searching: boolean = false
   resultProject: {[key: string]: ProjectSearchResult[]} = {}
-  constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService, private dialog: MatDialog) {
+  constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService, private dialog: MatDialog, private snackBar: MatSnackBar) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
     sendConnection.subscribe(data => {
@@ -93,9 +94,8 @@ export class HomeComponent {
             this.searchingServers.push(data.senderID)
           }
           this.searchCompleted[data.senderID] = false
-          console.log(this.searchingServers)
         } else if (data.requestType === 'file-upload-not-allow') {
-          console.log("file upload not allow")
+          this.snackBar.open("File request is not allowed for this node. Please contact "+data.data, "Close")
         }
       }
 
