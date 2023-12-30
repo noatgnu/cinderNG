@@ -15,13 +15,13 @@ export interface ProjectFile {
 export interface ProjectFileSearchResult {
   id: number;
   data: ProjectFile[];
+  found_terms: string[];
+  found_lines: number[];
 }
 
 export interface SearchResultDownload {
   files: ProjectFileSearchResult[];
   projects: ProjectSearchResult[];
-  found_terms: string[];
-  found_lines: number[];
 }
 
 export interface ProjectSearchResult {

@@ -39,6 +39,10 @@ export class FileViewComponent {
 
   @Input() pyreName: string = ""
 
+  @Input() found_lines: number[] = []
+
+  @Input() found_terms: string[] = []
+
   constructor(public websocket: WebsocketService) {
   }
 

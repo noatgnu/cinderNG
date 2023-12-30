@@ -20,6 +20,21 @@
       <p>
         <span [style.color]="'red'">Description: </span> <span>{{file.description}}</span>
       </p>
+      <ul>
+        <span [style.color]="'red'">Found terms: </span>
+        @for (term of found_terms; track term) {
+          <li>{{term}}</li>
+        }
+      </ul>
+      <ul>
+        <span [style.color]="'red'">Found lines: </span>
+        @for (line of found_lines; track line) {
+          <li>{{line}}</li>
+        }
+      </ul>
+      <p>
+        <span [style.color]="'red'">Found lines: {{found_lines.join(";")}}</span>
+      </p>
       <mat-paginator [length]="data.count()"
                      [pageSize]="pageSize"
                      (page)="handlePageEvent($event)"
