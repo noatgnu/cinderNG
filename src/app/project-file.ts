@@ -17,6 +17,8 @@ export interface ProjectFileSearchResult {
   data: ProjectFile[];
   found_terms: string[];
   found_lines: number[];
+  found_line_term_map: { [key: number]: string[] };
+  analysis: any;
 }
 
 export interface SearchResultDownload {
