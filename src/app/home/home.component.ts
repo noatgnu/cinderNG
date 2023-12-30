@@ -107,6 +107,7 @@ export class HomeComponent {
 
         if (this.resultMap[value]) {
           this.web.getSearchResult(this.resultMap[value]["id"], this.websocketService.sessionID).subscribe((result) => {
+            console.log(result)
             this.resultFile[value] = new DataFrame(result.files)
             this.resultProject[value] = result.projects
             this.currentDisplay = this.resultFile[value]

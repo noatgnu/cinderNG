@@ -20,6 +20,8 @@ export interface ProjectFileSearchResult {
 export interface SearchResultDownload {
   files: ProjectFileSearchResult[];
   projects: ProjectSearchResult[];
+  found_terms: string[];
+  found_lines: number[];
 }
 
 export interface ProjectSearchResult {
