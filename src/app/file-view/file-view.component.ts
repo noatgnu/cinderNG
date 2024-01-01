@@ -1,11 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DataFrame, IDataFrame} from "data-forge";
-import {ProjectFile} from "../project-file";
+import {Analysis, ProjectFile} from "../project-file";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {WebsocketService} from "../websocket.service";
 import {environment} from "../../environments/environment";
 import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
+import {FormsModule} from "@angular/forms";
+import {MatTableModule} from "@angular/material/table";
 
 @Component({
   selector: 'app-file-view',
@@ -13,7 +17,11 @@ import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
   imports: [
     MatButtonModule,
     MatCardModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    MatTableModule
   ],
   templateUrl: './file-view.component.html',
   styleUrl: './file-view.component.scss'
@@ -35,6 +43,8 @@ export class FileViewComponent {
     return this._data
   }
 
+  selectedAnalysis: string = "No analysis selected"
+
   @Input() server: string = ""
 
   @Input() pyreName: string = ""
@@ -42,6 +52,8 @@ export class FileViewComponent {
   @Input() found_lines: number[] = []
 
   @Input() found_terms: string[] = []
+
+  @Input() analysis: {[key: string]: Analysis} = {}
 
   constructor(public websocket: WebsocketService) {
   }
@@ -84,4 +96,6 @@ export class FileViewComponent {
     }
     console.log(this.displayData.toArray())
   }
+
+  protected readonly Object = Object;
 }

@@ -18,7 +18,7 @@ export interface ProjectFileSearchResult {
   found_terms: string[];
   found_lines: number[];
   found_line_term_map: { [key: number]: string[] };
-  analysis: any;
+  analysis: {[key: string]: Analysis};
 }
 
 export interface SearchResultDownload {
@@ -39,4 +39,18 @@ export interface Project {
   metadata: any
   global_id: string
   headline: string
+}
+
+export interface Analysis {
+  comparison_matrix: ComparisonMatrix[];
+  differential_analysis: {[key: string]: any};
+  sample_annotation: any;
+  searched_file: any;
+}
+
+export interface ComparisonMatrix {
+  "Condition A": string;
+  "Condition B": string;
+  "Fold Change Column": string;
+  "Significance column": string;
 }
