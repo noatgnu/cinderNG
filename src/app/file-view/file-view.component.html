@@ -26,41 +26,43 @@
       <p>
         <span [style.color]="'red'">Found lines:</span> {{found_lines.join("; ")}}
       </p>
+      @if (analysis){
+        @if (Object.keys(analysis).length > 0) {
+          <mat-form-field>
+            <mat-label>Analysis</mat-label>
+            <mat-select [(ngModel)]="selectedAnalysis">
+              <mat-option [value]="'No analysis selected'">No analysis selected</mat-option>
+              @for (i of Object.keys(analysis); track i) {
+                <mat-option [value]="i">{{i}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
 
-      @if (Object.keys(analysis).length > 0) {
-        <mat-form-field>
-          <mat-label>Analysis</mat-label>
-          <mat-select [(ngModel)]="selectedAnalysis">
-            <mat-option [value]="'No analysis selected'">No analysis selected</mat-option>
-            @for (i of Object.keys(analysis); track i) {
-              <mat-option [value]="i">{{i}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+        @if (selectedAnalysis !== 'No analysis selected') {
+          <table mat-table [dataSource]="analysis[selectedAnalysis].comparison_matrix">
+            <ng-container matColumnDef="Condition A">
+              <th mat-header-cell *matHeaderCellDef> Condition A </th>
+              <td mat-cell *matCellDef="let element"> {{element["Condition A"]}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Condition B">
+              <th mat-header-cell *matHeaderCellDef> Condition B </th>
+              <td mat-cell *matCellDef="let element"> {{element["Condition B"]}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Fold Change Column">
+              <th mat-header-cell *matHeaderCellDef> Fold Change Column </th>
+              <td mat-cell *matCellDef="let element"> {{element["Fold Change Column"]}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Significance column">
+              <th mat-header-cell *matHeaderCellDef> Significance Column </th>
+              <td mat-cell *matCellDef="let element"> {{element["Significance column"]}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="[ 'Condition A', 'Condition B', 'Fold Change Column', 'Significance column']"></tr>
+            <tr mat-row *matRowDef="let row; columns: [ 'Condition A', 'Condition B', 'Fold Change Column', 'Significance column']"></tr>
+          </table>
+        }
       }
 
-      @if (selectedAnalysis !== 'No analysis selected') {
-        <table mat-table [dataSource]="analysis[selectedAnalysis].comparison_matrix">
-          <ng-container matColumnDef="Condition A">
-            <th mat-header-cell *matHeaderCellDef> Condition A </th>
-            <td mat-cell *matCellDef="let element"> {{element["Condition A"]}} </td>
-          </ng-container>
-          <ng-container matColumnDef="Condition B">
-            <th mat-header-cell *matHeaderCellDef> Condition B </th>
-            <td mat-cell *matCellDef="let element"> {{element["Condition B"]}} </td>
-          </ng-container>
-          <ng-container matColumnDef="Fold Change Column">
-            <th mat-header-cell *matHeaderCellDef> Fold Change Column </th>
-            <td mat-cell *matCellDef="let element"> {{element["Fold Change Column"]}} </td>
-          </ng-container>
-          <ng-container matColumnDef="Significance column">
-            <th mat-header-cell *matHeaderCellDef> Significance Column </th>
-            <td mat-cell *matCellDef="let element"> {{element["Significance column"]}} </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="[ 'Condition A', 'Condition B', 'Fold Change Column', 'Significance column']"></tr>
-          <tr mat-row *matRowDef="let row; columns: [ 'Condition A', 'Condition B', 'Fold Change Column', 'Significance column']"></tr>
-        </table>
-      }
 
 
       <mat-paginator [length]="data.count()"
