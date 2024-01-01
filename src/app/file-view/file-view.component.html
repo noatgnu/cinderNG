@@ -51,11 +51,29 @@
             </ng-container>
             <ng-container matColumnDef="Fold Change Column">
               <th mat-header-cell *matHeaderCellDef> Fold Change Column </th>
-              <td mat-cell *matCellDef="let element"> {{element["Fold Change Column"]}} </td>
+              <td mat-cell *matCellDef="let element">
+                {{element["Fold Change Column"]}}
+                @if (analysis[selectedAnalysis].differential_analysis) {
+                  @for (row of Object.keys(analysis[selectedAnalysis].differential_analysis); track row) {
+                    <p>
+                      Row: {{row}}, Data: {{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}
+                    </p>
+                  }
+                }
+              </td>
             </ng-container>
             <ng-container matColumnDef="Significance column">
               <th mat-header-cell *matHeaderCellDef> Significance Column </th>
-              <td mat-cell *matCellDef="let element"> {{element["Significance column"]}} </td>
+              <td mat-cell *matCellDef="let element">
+                {{element["Significance column"]}}
+                @if (analysis[selectedAnalysis].differential_analysis) {
+                  @for (row of Object.keys(analysis[selectedAnalysis].differential_analysis); track row) {
+                    <p>
+                      Row: {{row}}, Data: {{analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]]}}
+                    </p>
+                  }
+                }
+              </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="[ 'Condition A', 'Condition B', 'Fold Change Column', 'Significance column']"></tr>
             <tr mat-row *matRowDef="let row; columns: [ 'Condition A', 'Condition B', 'Fold Change Column', 'Significance column']"></tr>
