@@ -55,6 +55,12 @@ export class FileViewComponent {
 
   @Input() analysis: {[key: string]: Analysis} = {}
 
+  fcCutOff: number = 1.5
+  pCutoff: number = 0.05
+
+  fcDataMap: {[key: string]: {value: number, passed: boolean}} = {}
+  pValueDataMap: {[key: string]: {value: number, passed: boolean}} = {}
+
   constructor(public websocket: WebsocketService) {
   }
 
@@ -97,5 +103,34 @@ export class FileViewComponent {
     console.log(this.displayData.toArray())
   }
 
-  protected readonly Object = Object;
+  getKeys(object: any): string[] {
+    return Object.keys(object)
+  }
+
+  getFloat(value: string, row: string, valueType: string): {value: number, passed: boolean} {
+    const data = parseFloat(value)
+    let passed = false
+    if (!isNaN(data)) {
+      if (valueType === "FC") {
+        passed = this.passFCCutOff(data)
+      } else {
+        passed = this.passSignificance(data)
+      }
+    }
+    const res = {value: data, passed: passed}
+    if (valueType === "FC") {
+      this.fcDataMap[row] = res
+    } else {
+      this.pValueDataMap[row] = res
+    }
+    return res
+  }
+
+  passFCCutOff(value: number): boolean {
+    return Math.abs(value) >= this.fcCutOff
+  }
+
+  passSignificance(value: number): boolean {
+    return value <= -Math.log10(this.pCutoff)
+  }
 }
