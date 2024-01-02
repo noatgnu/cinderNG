@@ -59,7 +59,7 @@
                       @if (fcDataMap[row]) {
                         @if (fcDataMap[row].value >0) {
                           <p>
-                            Row: {{row}}, Data: <span style="color:#311b92">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
+                            Row: {{row}}, Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:#311b92">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
                           </p>
                         } @else {
                           <p>
@@ -79,7 +79,7 @@
             <ng-container matColumnDef="Significance column">
               <th mat-header-cell *matHeaderCellDef> Significance Column </th>
               <td mat-cell *matCellDef="let element">
-                {{element["Significance column"]}}
+                <b>{{element["Significance column"]}}</b>
                 @if (analysis[selectedAnalysis].differential_analysis) {
                   @for (row of getKeys(analysis[selectedAnalysis].differential_analysis); track row) {
                     @if (getFloat(analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]], row, "p").passed) {

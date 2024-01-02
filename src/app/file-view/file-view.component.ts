@@ -55,6 +55,8 @@ export class FileViewComponent {
 
   @Input() analysis: {[key: string]: Analysis} = {}
 
+  @Input() found_line_term_map: {[key: string]: string[]} = {}
+
   fcCutOff: number = 1.5
   pCutoff: number = 0.05
 

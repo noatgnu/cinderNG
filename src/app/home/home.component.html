@@ -80,7 +80,7 @@
     <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
       <h1>Results:</h1>
       @for (f of currentDisplay; track f) {
-        <app-file-view [data]="f.data" [server]="form.value['server']" [pyreName]="form.value['pyreName']" [found_lines]="f.found_lines" [found_terms]="f.found_terms" [analysis]="f.analysis"></app-file-view>
+        <app-file-view [data]="f.data" [server]="form.value['server']" [pyreName]="form.value['pyreName']" [found_lines]="f.found_lines" [found_terms]="f.found_terms" [analysis]="f.analysis" [found_line_term_map]="f.found_line_term_map"></app-file-view>
       } @empty {
         <p>No results yet</p>
       }
