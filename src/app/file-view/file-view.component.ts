@@ -11,6 +11,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {FormsModule} from "@angular/forms";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
+import {MatDialog} from "@angular/material/dialog";
+import {SampleDataDialogComponent} from "../sample-data-dialog/sample-data-dialog.component";
 
 @Component({
   selector: 'app-file-view',
@@ -65,7 +67,7 @@ export class FileViewComponent {
   fcDataMap: {[key: string]: {value: number, passed: boolean}} = {}
   pValueDataMap: {[key: string]: {value: number, passed: boolean}} = {}
 
-  constructor(public websocket: WebsocketService) {
+  constructor(public websocket: WebsocketService, private dialog: MatDialog) {
   }
 
   requestFileHandler() {
@@ -136,5 +138,11 @@ export class FileViewComponent {
 
   passSignificance(value: number): boolean {
     return value <= -Math.log10(this.pCutoff)
+  }
+
+  viewBarChart(row: string, conditionA: string, conditionB: string) {
+    const ref = this.dialog.open(SampleDataDialogComponent)
+    ref.componentInstance.data = this.analysis[this.selectedAnalysis].searched_file[row]
+    ref.componentInstance.annotations = this.analysis[this.selectedAnalysis].sample_annotation
   }
 }
