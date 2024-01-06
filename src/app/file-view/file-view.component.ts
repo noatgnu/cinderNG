@@ -143,6 +143,14 @@ export class FileViewComponent {
   viewBarChart(row: string, conditionA: string, conditionB: string) {
     const ref = this.dialog.open(SampleDataDialogComponent)
     ref.componentInstance.data = this.analysis[this.selectedAnalysis].searched_file[row]
-    ref.componentInstance.annotations = this.analysis[this.selectedAnalysis].sample_annotation
+    const limited_annotation: any = {}
+    for (const key of Object.keys(this.analysis[this.selectedAnalysis].sample_annotation)) {
+      if (this.analysis[this.selectedAnalysis].sample_annotation[key] === conditionA || this.analysis[this.selectedAnalysis].sample_annotation[key] === conditionB) {
+        limited_annotation[key] = this.analysis[this.selectedAnalysis].sample_annotation[key]
+      }
+    }
+    ref.componentInstance.annotations = limited_annotation
+    ref.componentInstance.conditions = [conditionA, conditionB]
+    ref.componentInstance.drawBarChart()
   }
 }
