@@ -28,7 +28,7 @@ export class SampleDataDialogComponent {
       t: 40,
     }
   }
-  barWidth: number = 20
+  barWidth: number = 100
   revision: number = 0
   constructor() {
   }
