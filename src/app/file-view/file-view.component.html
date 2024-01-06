@@ -122,7 +122,7 @@
                 <b>{{element["Significance column"]}}</b>
                 @if (analysis[selectedAnalysis].differential_analysis) {
                   @for (row of getKeys(analysis[selectedAnalysis].differential_analysis); track row) {
-                    @if (getFloat(analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]], row, "p").passed) {
+                    @if (getFloat(analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]], row, "p").passed) {
                       @if (pValueDataMap[row]) {
                         <p>
                           Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:rgb(217,4,4)">{{analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]]}}</span>
