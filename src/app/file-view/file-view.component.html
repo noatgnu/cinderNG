@@ -125,13 +125,13 @@
                     @if (getFloat(analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]], row, "p").passed) {
                       @if (pValueDataMap[row]) {
                         <p>
-                          Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:rgb(217,4,4)">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
+                          Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:rgb(217,4,4)">{{analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]]}}</span>
                         </p>
                       }
 
                     } @else {
                       <p>
-                        Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:rgba(162,141,154,0.96)">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
+                        Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:rgba(162,141,154,0.96)">{{analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]]}}</span>
                       </p>
                     }
                   }
