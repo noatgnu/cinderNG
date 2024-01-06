@@ -18,7 +18,17 @@ export class SampleDataDialogComponent {
 
   @Input() conditions: string[] = []
   graphData: any[] = []
-  graphLayout: any = {}
+  graphLayout: any = {
+    width: 800,
+    height: 600,
+    margin: {
+      l: 40,
+      r: 40,
+      b: 40,
+      t: 40,
+    }
+  }
+  barWidth: number = 20
   revision: number = 0
   constructor() {
   }
@@ -32,16 +42,19 @@ export class SampleDataDialogComponent {
         type: 'bar'
       }
     }
+    let columns = 0
     for (const d in this.data) {
       if (this.annotations[d]) {
         graphs[this.annotations[d]].x.push(d)
         graphs[this.annotations[d]].y.push(this.data[d])
+        columns += 1
       }
     }
     this.graphData = []
     for (const c of this.conditions) {
       this.graphData.push(graphs[c])
     }
+    this.graphLayout.width = this.graphLayout.margin.l + this.graphLayout.margin.r + columns * this.barWidth
     this.revision += 1
   }
 
