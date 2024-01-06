@@ -10,6 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule} from "@angular/forms";
 import {MatTableModule} from "@angular/material/table";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-file-view',
@@ -21,7 +22,8 @@ import {MatTableModule} from "@angular/material/table";
     MatInputModule,
     MatSelectModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    MatIconModule
   ],
   templateUrl: './file-view.component.html',
   styleUrl: './file-view.component.scss'

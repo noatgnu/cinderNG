@@ -135,7 +135,9 @@
             <ng-container matColumnDef="Actions">
               <th mat-header-cell *matHeaderCellDef> Actions </th>
               <td mat-cell *matCellDef="let element">
-                <button mat-raised-button color="primary" (click)="downloadFileHandler()">Download</button>
+                <button mat-icon-button color="primary" (click)="downloadFileHandler()">
+                  <mat-icon>equalizer</mat-icon>
+                </button>
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="[ 'Condition A', 'Condition B', 'Fold Change Column', 'Significance column', 'Actions']"></tr>
