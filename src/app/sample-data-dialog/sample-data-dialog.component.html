@@ -1,6 +1,8 @@
 <h1 mat-dialog-title>Sample Data</h1>
 <div mat-dialog-content>
-  <plotly-plot [data]="graphData" [layout]="graphLayout" [updateOnlyWithRevision]="true" [revision]="revision"></plotly-plot>
+  <div style="display: flex; justify-content: center; width: 100%">
+    <plotly-plot [data]="graphData" [layout]="graphLayout" [updateOnlyWithRevision]="true" [revision]="revision"></plotly-plot>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close>Close</button>
