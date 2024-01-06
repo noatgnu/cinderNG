@@ -19,7 +19,7 @@ export class SampleDataDialogComponent {
   @Input() conditions: string[] = []
   graphData: any[] = []
   graphLayout: any = {
-    width: 800,
+    width: 1000,
     height: 600,
     margin: {
       l: 40,
@@ -57,6 +57,7 @@ export class SampleDataDialogComponent {
     }
     console.log(this.graphData)
     this.graphLayout.width = this.graphLayout.margin.l + this.graphLayout.margin.r + columns * this.barWidth
+    console.log(this.graphLayout)
     this.revision += 1
   }
 
