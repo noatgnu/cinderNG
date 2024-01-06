@@ -48,7 +48,7 @@
                   @for (row of getKeys(analysis[selectedAnalysis].searched_file); track row) {
                     <ul>
                       Row: {{row}}, Terms: {{found_line_term_map[row].join(";")}}
-                      <button mat-icon-button color="primary" class="small-icon-button" (click)="viewBarChart(row, element['Condition A'], element['Condition A'])">
+                      <button mat-icon-button color="primary" class="small-icon-button" (click)="viewBarChart(row, element['Condition A'], element['Condition B'])">
                         <mat-icon>equalizer</mat-icon>
                       </button>
 <!--                      @for (sample of getKeys(analysis[selectedAnalysis].sample_annotation); track sample) {
@@ -72,7 +72,7 @@
                   @for (row of getKeys(analysis[selectedAnalysis].searched_file); track row) {
                     <ul>
                       Row: {{row}}, Terms: {{found_line_term_map[row].join(";")}}
-                      <button mat-icon-button color="primary" class="small-icon-button" (click)="viewBarChart(row, element['Condition A'], element['Condition A'])">
+                      <button mat-icon-button color="primary" class="small-icon-button" (click)="viewBarChart(row, element['Condition A'], element['Condition B'])">
                         <mat-icon>equalizer</mat-icon>
                       </button>
                       <!--@for (sample of getKeys(analysis[selectedAnalysis].sample_annotation); track sample) {
