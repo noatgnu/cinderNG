@@ -141,7 +141,7 @@ export class FileViewComponent {
   }
 
   viewBarChart(row: string, conditionA: string, conditionB: string) {
-    const ref = this.dialog.open(SampleDataDialogComponent)
+    const ref = this.dialog.open(SampleDataDialogComponent, {minWidth: 800, minHeight: 600})
     ref.componentInstance.data = this.analysis[this.selectedAnalysis].searched_file[row]
     const limited_annotation: any = {}
     for (const key of Object.keys(this.analysis[this.selectedAnalysis].sample_annotation)) {

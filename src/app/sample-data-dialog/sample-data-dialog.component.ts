@@ -39,7 +39,8 @@ export class SampleDataDialogComponent {
       graphs[c] = {
         x: [],
         y: [],
-        type: 'bar'
+        type: 'bar',
+        name: c,
       }
     }
     let columns = 0
@@ -54,6 +55,7 @@ export class SampleDataDialogComponent {
     for (const c of this.conditions) {
       this.graphData.push(graphs[c])
     }
+    console.log(this.graphData)
     this.graphLayout.width = this.graphLayout.margin.l + this.graphLayout.margin.r + columns * this.barWidth
     this.revision += 1
   }
