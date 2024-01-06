@@ -137,7 +137,7 @@ export class FileViewComponent {
   }
 
   passSignificance(value: number): boolean {
-    return value <= -Math.log10(this.pCutoff)
+    return value >= -Math.log10(this.pCutoff)
   }
 
   viewBarChart(row: string, conditionA: string, conditionB: string) {
