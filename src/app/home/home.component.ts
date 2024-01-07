@@ -16,6 +16,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialog} from "@angular/material/dialog";
 import {ProjectFilterDialogComponent} from "../project-filter-dialog/project-filter-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ProjectViewDialogComponent} from "../project-view-dialog/project-view-dialog.component";
 
 @Component({
   selector: 'app-home',
@@ -57,6 +58,8 @@ export class HomeComponent {
   searchCompleted: {[key: string]: boolean} = {}
   searching: boolean = false
   resultProject: {[key: string]: ProjectSearchResult[]} = {}
+
+
   constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService, private dialog: MatDialog, private snackBar: MatSnackBar) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
@@ -180,5 +183,21 @@ export class HomeComponent {
       this.selectedProjects = []
       this.currentDisplay = new DataFrame()
     }
+  }
+
+  openProjectDialog(id: number) {
+    const project = this.resultProject[this.form.value['server']].find((row: ProjectSearchResult) => {
+      return row.id === id
+    })
+
+    if (project) {
+      const files = this.resultFile[this.form.value['server']].where((row: ProjectFileSearchResult) => {
+        return row.data[0].project_id === id
+      })
+      const ref = this.dialog.open(ProjectViewDialogComponent)
+      ref.componentInstance.data = project
+      ref.componentInstance.files = files
+    }
+
   }
 }

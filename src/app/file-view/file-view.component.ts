@@ -13,6 +13,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDialog} from "@angular/material/dialog";
 import {SampleDataDialogComponent} from "../sample-data-dialog/sample-data-dialog.component";
+import {MatChipsModule} from "@angular/material/chips";
 
 @Component({
   selector: 'app-file-view',
@@ -25,7 +26,8 @@ import {SampleDataDialogComponent} from "../sample-data-dialog/sample-data-dialo
     MatSelectModule,
     FormsModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule
   ],
   templateUrl: './file-view.component.html',
   styleUrl: './file-view.component.scss'
@@ -66,6 +68,8 @@ export class FileViewComponent {
 
   fcDataMap: {[key: string]: {value: number, passed: boolean}} = {}
   pValueDataMap: {[key: string]: {value: number, passed: boolean}} = {}
+
+  @Output() viewProjectEvent = new EventEmitter<number>()
 
   constructor(public websocket: WebsocketService, private dialog: MatDialog) {
   }
@@ -152,5 +156,9 @@ export class FileViewComponent {
     ref.componentInstance.annotations = limited_annotation
     ref.componentInstance.conditions = [conditionA, conditionB]
     ref.componentInstance.drawBarChart()
+  }
+
+  viewProject(projectID: number) {
+    this.viewProjectEvent.emit(projectID)
   }
 }

@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>
+  {{data?.data?.name}}
+</h1>
+<div mat-dialog-content>
+  <p>
+    <span style="color: darkred">Description:</span> {{data?.data?.description}}
+  </p>
+  @if (files.count() > 0) {
+    <mat-list role="list">
+      @for (file of files; track file.id) {
+        <mat-list-item role="listitem">
+          <span matListItemTitle>
+            {{file.data[0].id}} {{file.data[0].name}}
+          </span>
+          <span matListItemLine>
+            {{file.data[0].description}}
+          </span>
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>
