@@ -17,6 +17,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ProjectFilterDialogComponent} from "../project-filter-dialog/project-filter-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProjectViewDialogComponent} from "../project-view-dialog/project-view-dialog.component";
+import {ScrollService} from "../scroll.service";
 
 @Component({
   selector: 'app-home',
@@ -60,7 +61,7 @@ export class HomeComponent {
   resultProject: {[key: string]: ProjectSearchResult[]} = {}
 
 
-  constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService, private dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService, private dialog: MatDialog, private snackBar: MatSnackBar, private scroll: ScrollService) {
     const sendConnection = this.websocketService.connectSend()
     const resultConnection = this.websocketService.connectResult()
     sendConnection.subscribe(data => {
@@ -197,7 +198,15 @@ export class HomeComponent {
       const ref = this.dialog.open(ProjectViewDialogComponent)
       ref.componentInstance.data = project
       ref.componentInstance.files = files
+      ref.afterClosed().subscribe((result: number) => {
+        if (result) {
+          this.scrollToFile(result)
+        }
+      })
     }
+  }
 
+  scrollToFile(id: number) {
+    this.scroll.scrollToID(`${id}_fileid`)
   }
 }

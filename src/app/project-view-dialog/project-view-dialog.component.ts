@@ -4,6 +4,7 @@ import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from
 import {MatButtonModule} from "@angular/material/button";
 import {DataFrame, IDataFrame} from "data-forge";
 import {MatListModule} from "@angular/material/list";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-project-view-dialog',
@@ -14,7 +15,8 @@ import {MatListModule} from "@angular/material/list";
     MatDialogClose,
     MatButtonModule,
     MatDialogActions,
-    MatListModule
+    MatListModule,
+    MatIconModule
   ],
   templateUrl: './project-view-dialog.component.html',
   styleUrl: './project-view-dialog.component.scss'
