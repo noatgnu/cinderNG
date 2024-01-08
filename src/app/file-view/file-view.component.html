@@ -146,33 +146,35 @@
 
 
       @if (displayData.count() > 0) {
-        <mat-accordion>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <h3>Query Context</h3>
-              </mat-panel-title>
-              <mat-panel-description>
-                Evidences of the query terms in the file
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <mat-paginator [length]="data.count()"
-                           [pageSize]="pageSize"
-                           (page)="handlePageEvent($event)"
-                           aria-label="Select page">
-            </mat-paginator>
-            @for (f of displayData; track f.id) {
-              <div style="padding: 20px">
-                <mat-card>
-                  <mat-card-content [style.background]="'black'" [style.color]="'white'">
-                    <p>Query context</p>
-                    <p [innerHtml]="f.headline"></p>
-                  </mat-card-content>
-                </mat-card>
-              </div>
-            }
-          </mat-expansion-panel>
-        </mat-accordion>
+        <div style="margin-bottom: 20px">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Query Context
+                </mat-panel-title>
+                <mat-panel-description>
+                  Evidences of the query terms in the file
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-paginator [length]="data.count()"
+                             [pageSize]="pageSize"
+                             (page)="handlePageEvent($event)"
+                             aria-label="Select page">
+              </mat-paginator>
+              @for (f of displayData; track f.id) {
+                <div style="padding: 20px">
+                  <mat-card>
+                    <mat-card-content [style.background]="'black'" [style.color]="'white'">
+                      <p>Query context</p>
+                      <p [innerHtml]="f.headline"></p>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              }
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
       }
 
 
@@ -183,7 +185,7 @@
       } @else {
         <mat-card-footer>
           <div style="display: flex; gap: 20px">
-            <button mat-raised-button [color]="'accent'" (click)="requestFileHandler()">Request</button>
+            <button mat-raised-button [color]="'warn'" (click)="requestFileHandler()">Request</button>
             @if (websocket.uploadedFileMap[server]){
               @if (websocket.uploadedFileMap[server][file.id]) {
                 <button mat-raised-button [color]="'primary'" (click)="downloadFileHandler()">Download</button>
@@ -191,7 +193,6 @@
             }
           </div>
         </mat-card-footer>
-
       }
     </mat-card-content>
   </mat-card>
