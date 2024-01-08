@@ -47,7 +47,7 @@
                 @if (analysis[selectedAnalysis].sample_annotation && analysis[selectedAnalysis].searched_file) {
                   @for (row of getKeys(analysis[selectedAnalysis].searched_file); track row) {
                     <ul>
-                      Row: {{row}}, Terms: {{found_line_term_map[row].join(";")}}
+                      <b>Row:</b> {{row}}, <b>Terms:</b> {{found_line_term_map[row].join(";")}}
                       <button mat-icon-button [color]="'primary'" class="small-icon-button" (click)="viewBarChart(row, element['Condition A'], element['Condition B'])">
                         <mat-icon>equalizer</mat-icon>
                       </button>
@@ -71,7 +71,7 @@
                 @if (analysis[selectedAnalysis].sample_annotation && analysis[selectedAnalysis].searched_file) {
                   @for (row of getKeys(analysis[selectedAnalysis].searched_file); track row) {
                     <ul>
-                      Row: {{row}}, Terms: {{found_line_term_map[row].join(";")}}
+                      <b>Row:</b> {{row}}, <b>Terms:</b> {{found_line_term_map[row].join(";")}}
                       <button mat-icon-button [color]="'primary'" class="small-icon-button" (click)="viewBarChart(row, element['Condition A'], element['Condition B'])">
                         <mat-icon>equalizer</mat-icon>
                       </button>
@@ -99,17 +99,17 @@
                       @if (fcDataMap[row]) {
                         @if (fcDataMap[row].value >0) {
                           <p>
-                            Row: {{row}}, Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:#311b92">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
+                            <b>Row:</b> {{row}}, <b>Terms:</b> {{found_line_term_map[row].join(";")}}, <b>Data:</b> <span style="color:#311b92">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
                           </p>
                         } @else {
                           <p>
-                            Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:#b71c1c">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
+                            <b>Row:</b> {{row}},  <b>Terms:</b> {{found_line_term_map[row].join(";")}}, <b>Data:</b> <span style="color:#b71c1c">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
                           </p>
                         }
                       }
                     } @else {
                       <p>
-                        Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:rgba(162,141,154,0.96)">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
+                        <b>Row:</b> {{row}},  <b>Terms:</b> {{found_line_term_map[row].join(";")}}, <b>Data:</b> <span style="color:rgba(162,141,154,0.96)">{{analysis[selectedAnalysis].differential_analysis[row][element["Fold Change Column"]]}}</span>
                       </p>
                     }
                   }
@@ -125,13 +125,13 @@
                     @if (getFloat(analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]], row, "p").passed) {
                       @if (pValueDataMap[row]) {
                         <p>
-                          Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:rgb(217,4,4)">{{analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]]}}</span>
+                          <b>Row:</b> {{row}},  <b>Terms:</b> {{found_line_term_map[row].join(";")}}, <b>Data:</b> <span style="color:rgb(217,4,4)">{{analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]]}}</span>
                         </p>
                       }
 
                     } @else {
                       <p>
-                        Row: {{row}},  Terms: {{found_line_term_map[row].join(";")}}, Data: <span style="color:rgba(162,141,154,0.96)">{{analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]]}}</span>
+                        <b>Row:</b> {{row}},  <b>Terms:</b> {{found_line_term_map[row].join(";")}}, <b>Data:</b> <span style="color:rgba(162,141,154,0.96)">{{analysis[selectedAnalysis].differential_analysis[row][element["Significance column"]]}}</span>
                       </p>
                     }
                   }

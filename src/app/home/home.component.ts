@@ -18,6 +18,7 @@ import {ProjectFilterDialogComponent} from "../project-filter-dialog/project-fil
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProjectViewDialogComponent} from "../project-view-dialog/project-view-dialog.component";
 import {ScrollService} from "../scroll.service";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,8 @@ import {ScrollService} from "../scroll.service";
     NgIf,
     MatSelectModule,
     FileViewComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
