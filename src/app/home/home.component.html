@@ -101,14 +101,15 @@
         <mat-tab label="Project View">
           <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
             <h1>Results:</h1>
-
+            @for (p of resultProject[form.value.server]; track p.id) {
+              @if (projectToFileMap[p.id]) {
+                <app-project-view [data]="p" [files]="projectToFileMap[p.id]"></app-project-view>
+              }
+            }
           </div>
         </mat-tab>
       }
     }
-    <mat-tab label="Project View">
-
-    </mat-tab>
   </mat-tab-group>
 }
 

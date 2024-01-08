@@ -19,6 +19,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProjectViewDialogComponent} from "../project-view-dialog/project-view-dialog.component";
 import {ScrollService} from "../scroll.service";
 import {MatTabsModule} from "@angular/material/tabs";
+import {ProjectViewComponent} from "../project-view/project-view.component";
 
 @Component({
   selector: 'app-home',
@@ -33,7 +34,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     MatSelectModule,
     FileViewComponent,
     MatProgressSpinnerModule,
-    MatTabsModule
+    MatTabsModule,
+    ProjectViewComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -61,7 +63,7 @@ export class HomeComponent {
   searchCompleted: {[key: string]: boolean} = {}
   searching: boolean = false
   resultProject: {[key: string]: ProjectSearchResult[]} = {}
-
+  projectToFileMap: {[key: string]: ProjectFileSearchResult[]} = {}
 
   constructor(public websocketService: WebsocketService, private fb: FormBuilder, private web: WebService, private dialog: MatDialog, private snackBar: MatSnackBar, private scroll: ScrollService) {
     const sendConnection = this.websocketService.connectSend()
@@ -116,6 +118,16 @@ export class HomeComponent {
             console.log(result)
             this.resultFile[value] = new DataFrame(result.files)
             this.resultProject[value] = result.projects
+            for (const i of result.projects) {
+              if (!this.projectToFileMap[i.id]) {
+                this.projectToFileMap[i.id] = []
+              }
+              for (const j of result.files) {
+                if (j.data[0].project_id === i.id) {
+                  this.projectToFileMap[i.id].push(j)
+                }
+              }
+            }
             this.currentDisplay = this.resultFile[value]
             this.selectedProjects = []
             this.firstRow = {}

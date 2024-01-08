@@ -1,0 +1,24 @@
+@if (data) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h1>{{data.data.name}}</h1>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{data.data.description}}</p>
+      <mat-list>
+        @for (f of files; track f.id) {
+          <mat-list-item>
+            <span matListItemTitle>
+              {{f.data[0].name}}
+            </span>
+            <span matListItemLine>
+              {{f.data[0].description}}
+            </span>
+          </mat-list-item>
+        }
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+}
