@@ -145,22 +145,36 @@
       }
 
 
-
-      <mat-paginator [length]="data.count()"
-                     [pageSize]="pageSize"
-                     (page)="handlePageEvent($event)"
-                     aria-label="Select page">
-      </mat-paginator>
-      @for (f of displayData; track f.id) {
-        <div style="padding: 20px">
-          <mat-card>
-            <mat-card-content [style.background]="'black'" [style.color]="'white'">
-              <p>Query context</p>
-              <p [innerHtml]="f.headline"></p>
-            </mat-card-content>
-          </mat-card>
-        </div>
+      @if (displayData.count() > 0) {
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h3>Query Context</h3>
+              </mat-panel-title>
+              <mat-panel-description>
+                Evidences of the query terms in the file
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-paginator [length]="data.count()"
+                           [pageSize]="pageSize"
+                           (page)="handlePageEvent($event)"
+                           aria-label="Select page">
+            </mat-paginator>
+            @for (f of displayData; track f.id) {
+              <div style="padding: 20px">
+                <mat-card>
+                  <mat-card-content [style.background]="'black'" [style.color]="'white'">
+                    <p>Query context</p>
+                    <p [innerHtml]="f.headline"></p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            }
+          </mat-expansion-panel>
+        </mat-accordion>
       }
+
 
       @if (server === 'host') {
         <mat-card-footer>

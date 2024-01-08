@@ -14,6 +14,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatDialog} from "@angular/material/dialog";
 import {SampleDataDialogComponent} from "../sample-data-dialog/sample-data-dialog.component";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-file-view',
@@ -27,7 +28,8 @@ import {MatChipsModule} from "@angular/material/chips";
     FormsModule,
     MatTableModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatExpansionModule
   ],
   templateUrl: './file-view.component.html',
   styleUrl: './file-view.component.scss'
