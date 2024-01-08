@@ -12,7 +12,7 @@
         <span [style.color]="'red'">Type: </span> <span>{{file.file_type}}</span>
       </p>
       <p>
-        <span [style.color]="'red'">Project_id: </span> <mat-basic-chip (click)="viewProject(file.project_id)"><span>{{file.project_id}}</span></mat-basic-chip>
+        <span [style.color]="'red'">Project ID: </span> <mat-basic-chip (click)="viewProject(file.project_id)" [color]="'primary'"><span>{{file.project_id}}</span></mat-basic-chip>
       </p>
       <p>
         <span [style.color]="'red'">Category: </span> <span>{{file.file_category}}</span>
@@ -72,7 +72,7 @@
                   @for (row of getKeys(analysis[selectedAnalysis].searched_file); track row) {
                     <ul>
                       Row: {{row}}, Terms: {{found_line_term_map[row].join(";")}}
-                      <button mat-icon-button color="primary" class="small-icon-button" (click)="viewBarChart(row, element['Condition A'], element['Condition B'])">
+                      <button mat-icon-button [color]="'primary'" class="small-icon-button" (click)="viewBarChart(row, element['Condition A'], element['Condition B'])">
                         <mat-icon>equalizer</mat-icon>
                       </button>
                       <!--@for (sample of getKeys(analysis[selectedAnalysis].sample_annotation); track sample) {

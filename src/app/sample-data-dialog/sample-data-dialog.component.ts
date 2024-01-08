@@ -30,6 +30,19 @@ export class SampleDataDialogComponent {
   }
   barWidth: number = 100
   revision: number = 0
+
+  defaultColorList: string[] = [
+    "#fd7f6f",
+    "#7eb0d5",
+    "#b2e061",
+    "#bd7ebe",
+    "#ffb55a",
+    "#ffee65",
+    "#beb9db",
+    "#fdcce5",
+    "#8bd3c7",
+  ]
+
   constructor() {
   }
 
@@ -52,6 +65,11 @@ export class SampleDataDialogComponent {
       }
     }
     this.graphData = []
+    for (let i = 0; i < this.conditions.length; i++) {
+      graphs[this.conditions[i]].marker = {color: this.defaultColorList[i % this.defaultColorList.length]}
+      this.graphData.push(graphs[this.conditions[i]])
+    }
+
     for (const c of this.conditions) {
       this.graphData.push(graphs[c])
     }
