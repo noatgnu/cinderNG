@@ -12,7 +12,7 @@
         <span [style.color]="'red'">Type: </span> <span>{{file.file_type}}</span>
       </p>
       <p>
-        <span [style.color]="'red'">Project ID: </span> <mat-basic-chip (click)="viewProject(file.project_id)" [color]="'primary'"><span>{{file.project_id}}</span></mat-basic-chip>
+        <span [style.color]="'red'">Project ID: </span> <mat-chip (click)="viewProject(file.project_id)" [color]="'primary'"><span>{{file.project_id}}</span></mat-chip>
       </p>
       <p>
         <span [style.color]="'red'">Category: </span> <span>{{file.file_category}}</span>
