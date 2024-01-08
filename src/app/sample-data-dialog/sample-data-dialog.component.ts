@@ -54,6 +54,9 @@ export class SampleDataDialogComponent {
         y: [],
         type: 'bar',
         name: c,
+        marker: {
+          color: this.defaultColorList[this.conditions.indexOf(c) % this.defaultColorList.length]
+        },
       }
     }
     let columns = 0
@@ -65,11 +68,6 @@ export class SampleDataDialogComponent {
       }
     }
     this.graphData = []
-    for (let i = 0; i < this.conditions.length; i++) {
-      graphs[this.conditions[i]].marker = {color: this.defaultColorList[i % this.defaultColorList.length]}
-      this.graphData.push(graphs[this.conditions[i]])
-    }
-
     for (const c of this.conditions) {
       this.graphData.push(graphs[c])
     }
