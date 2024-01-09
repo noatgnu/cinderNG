@@ -15,6 +15,9 @@ export class WebsocketService {
   baseURL: string = environment.baseURL
   websocketLogs: WebsocketMessage[] = []
   uploadedFileMap: {[key:string]: {[key: string]: ProjectFile}} = {}
+  searching: boolean = false
+  searchingServers: string[] = []
+  searchCompleted: {[key: string]: boolean} = {}
   constructor() { }
 
   connectSend() {

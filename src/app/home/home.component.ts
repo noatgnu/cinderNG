@@ -56,9 +56,9 @@ export class HomeComponent {
   currentDisplay: IDataFrame<number, ProjectFileSearchResult> = new DataFrame()
   resultMap: {[key: string]: SearchResult} = {}
   firstRow: {[key: string]: ProjectFile} = {}
-  searchingServers: string[] = []
-  searchCompleted: {[key: string]: boolean} = {}
-  searching: boolean = false
+
+
+
   resultProject: {[key: string]: ProjectSearchResult[]} = {}
   projectToFileMap: {[key: string]: ProjectFileSearchResult[]} = {}
 
@@ -76,14 +76,14 @@ export class HomeComponent {
       if (data.targetID === this.websocketService.personalID) {
         this.websocketService.websocketLogs = [data, ...this.websocketService.websocketLogs]
         if (data.message === "Results found" || data.message === "No results found") {
-          this.searchCompleted[data.senderID] = true
+          this.websocketService.searchCompleted[data.senderID] = true
 
           if (data.message === "Results found") {
             this.resultMap[data.senderID] = data.data
             this.servers = ["None selected", ...Object.keys(this.resultMap)]
           }
-          if (Object.values(this.searchCompleted).every((v) => v === true)) {
-            this.searching = false
+          if (Object.values(this.websocketService.searchCompleted).every((v) => v === true)) {
+            this.websocketService.searching = false
           }
         }
         if (data.requestType === 'file-upload') {
@@ -95,10 +95,10 @@ export class HomeComponent {
 
 
         } else if (data.requestType === 'search-started') {
-          if (!this.searchingServers.includes(data.senderID)) {
-            this.searchingServers.push(data.senderID)
+          if (!this.websocketService.searchingServers.includes(data.senderID)) {
+            this.websocketService.searchingServers.push(data.senderID)
           }
-          this.searchCompleted[data.senderID] = false
+          this.websocketService.searchCompleted[data.senderID] = false
         } else if (data.requestType === 'file-request-not-allowed') {
           this.snackBar.open("File request is not allowed for this node. Please contact "+data.data, "Close")
         }
@@ -139,10 +139,10 @@ export class HomeComponent {
   }
 
   search() {
-    this.searching = true
+    this.websocketService.searching = true
     this.servers = ["None selected"]
     this.resultMap = {}
-    this.searchingServers = []
+    this.websocketService.searchingServers = []
     this.currentDisplay = new DataFrame()
     this.firstRow = {}
     this.selectedProjects = []

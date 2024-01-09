@@ -9,6 +9,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatDialog} from "@angular/material/dialog";
 import {ConnectionLogsDialogComponent} from "./connection-logs-dialog/connection-logs-dialog.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {ProgressDialogComponent} from "./progress-dialog/progress-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -29,4 +30,7 @@ export class AppComponent {
     const ref = this.dialog.open(ConnectionLogsDialogComponent)
   }
 
+  viewProgress() {
+    const ref = this.dialog.open(ProgressDialogComponent)
+  }
 }

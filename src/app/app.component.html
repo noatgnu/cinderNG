@@ -2,7 +2,7 @@
   <mat-toolbar-row>
     <span>Cinder</span>
     <span class="spacer"></span>
-    <mat-progress-spinner [diameter]="20" [mode]="'indeterminate'"></mat-progress-spinner>
+    <mat-spinner *ngIf="websoketService.searching" [diameter]="40" [mode]="'indeterminate'" [color]="'accent'" (click)="viewProgress()"></mat-spinner>
     <button mat-icon-button (click)="openLogDialog()">
       <mat-icon>notes</mat-icon>
     </button>

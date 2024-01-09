@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Progress Status</h1>
+<div mat-dialog-content>
+  <div style="display: flex; flex-wrap: wrap; gap: 20px">
+    @for (s of websocketService.searchingServers; track s) {
+      <div style="display: flex">
+        <p>{{s}}</p>: @if(websocketService.searchCompleted[s]){ <span style="color: #46a35e">completed</span>}@else{<mat-progress-spinner mode="indeterminate" color="primary" diameter="20"></mat-progress-spinner>}
+      </div>
+    }
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>
