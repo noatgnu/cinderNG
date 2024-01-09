@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { PlotlyViaCDNModule } from 'angular-plotly.js';
+import {PlotlyService, PlotlyViaCDNModule} from 'angular-plotly.js';
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 PlotlyViaCDNModule.setPlotlyVersion('latest');
@@ -43,7 +43,8 @@ export class SampleDataDialogComponent {
     "#8bd3c7",
   ]
 
-  constructor() {
+  constructor(public plotlyService: PlotlyService) {
+
   }
 
   drawBarChart() {
@@ -75,6 +76,13 @@ export class SampleDataDialogComponent {
     this.graphLayout.width = this.graphLayout.margin.l + this.graphLayout.margin.r + columns * this.barWidth
     console.log(this.graphLayout)
     this.revision += 1
+  }
+
+  async saveAsDataURI() {
+    const plotly = await this.plotlyService.getPlotly()
+    plotly.toImage(this.graphData, {format: 'png', width: this.graphLayout.width, height: this.graphLayout.height}).then((dataURI: string) => {
+      console.log(dataURI)
+    })
   }
 
 }
