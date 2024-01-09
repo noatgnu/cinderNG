@@ -4,8 +4,8 @@
     <mat-selection-list formControlName="selected">
       @for (p of data; track p.id) {
         <mat-list-option [value]="p.id">
-          <div matListItemTitle>File name: {{p.data.name}}</div>
-          <div matListItemLine>File description: {{p.data.description}}</div>
+          <div matListItemTitle>Project name: {{p.data.name}}</div>
+          <div matListItemLine>Project description: {{p.data.description}}</div>
         </mat-list-option>
       }
     </mat-selection-list>
