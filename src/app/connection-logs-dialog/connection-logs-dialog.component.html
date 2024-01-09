@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Connection Logs</h1>
+<div mat-dialog-content>
+  <div style="padding: 20px; height: 200px; display: flex; flex-direction: column-reverse; overflow: auto">
+    @for (m of websocketService.websocketLogs; track m.message) {
+      <p>
+        <span [style.color]="'red'">{{m.senderID}}:</span> <span>{{m.message}}</span> <span [style.color]="channelTypeColorMap[m.channelType]">({{m.channelType}})</span>
+      </p>
+    } @empty {
+      <p style="color: white">No log data yet</p>
+    }
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

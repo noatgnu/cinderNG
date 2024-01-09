@@ -41,10 +41,7 @@ import {ProjectViewComponent} from "../project-view/project-view.component";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  channelTypeColorMap: {[key:string]: string} = {
-    'user-send': '#1e90ff',
-    'user-result': '#00ff00',
-  }
+
 
   form: FormGroup = this.fb.group({
     query: [''],

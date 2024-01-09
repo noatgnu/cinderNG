@@ -1,41 +1,24 @@
 <div style="display: flex; justify-content: center; max-height: 425px; padding: 20px; gap:20px">
-  <div style="flex-grow: 1">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title style="color: darkred">Search Query Form</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form [formGroup]="form" (ngSubmit)="search()">
-          <div style="display: flex; gap: 20px; flex-wrap: wrap">
-            <mat-form-field style="width: 400px">
-              <mat-label>Search text-file</mat-label>
-              <textarea matInput formControlName="query" style="max-height: 400px"></textarea>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Description field</mat-label>
-              <textarea matInput formControlName="description"></textarea>
-            </mat-form-field>
-          </div>
-          <mat-card-actions>
-            <button mat-raised-button color="primary" type="submit">Search</button>
-          </mat-card-actions>
-        </form>
-      </mat-card-content>
-    </mat-card>
-
-  </div>
-  <mat-card style="width: 300px">
+  <mat-card>
     <mat-card-header>
-      <mat-card-title>Connection logs</mat-card-title>
+      <mat-card-title style="color: darkred">Search Query Form</mat-card-title>
     </mat-card-header>
-    <mat-card-content style="padding: 20px; height: 200px; display: flex; flex-direction: column-reverse; overflow: auto">
-      @for (m of websocketService.websocketLogs; track m.message) {
-        <p>
-          <span [style.color]="'red'">{{m.senderID}}:</span> <span>{{m.message}}</span> <span [style.color]="channelTypeColorMap[m.channelType]">({{m.channelType}})</span>
-        </p>
-      } @empty {
-        <p style="color: white">No log data yet</p>
-      }
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="search()">
+        <div style="display: flex; gap: 20px; flex-wrap: wrap">
+          <mat-form-field style="width: 400px">
+            <mat-label>Search text-file</mat-label>
+            <textarea matInput formControlName="query" style="max-height: 400px"></textarea>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Description field</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit">Search</button>
+        </mat-card-actions>
+      </form>
     </mat-card-content>
   </mat-card>
 </div>
