@@ -41,7 +41,7 @@ import {ProjectViewComponent} from "../project-view/project-view.component";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
+  selectedTab = 0
 
   form: FormGroup = this.fb.group({
     query: [''],

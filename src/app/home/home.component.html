@@ -42,7 +42,7 @@
 }
 
 
-<div style="display: flex; padding: 20px; gap: 20px; align-items: center">
+<div style="display: flex; padding: 20px; gap: 20px; align-items: center; justify-content: center">
   <form [formGroup]="form" *ngIf="servers.length >0">
     <mat-form-field>
       <mat-label>Server</mat-label>
@@ -56,16 +56,18 @@
     </mat-form-field>
 
   </form>
-  <div>
-    <button mat-raised-button (click)="viewProjectFilterDialog()" [color]="'primary'">Filter by projects</button>
-  </div>
-  <div>
-    <button mat-raised-button (click)="resetFilter()" [color]="'primary'">Reset filter</button>
-  </div>
+  @if (selectedTab === 0) {
+    <div>
+      <button mat-raised-button (click)="viewProjectFilterDialog()" [color]="'primary'">Filter by projects</button>
+    </div>
+    <div>
+      <button mat-raised-button (click)="resetFilter()" [color]="'primary'">Reset filter</button>
+    </div>
+  }
 </div>
 @if (form.value['server'] !== '' && form.value['server'] !== null && form.value['server'] !== 'None selected') {
   <div style="padding: 20px">
-    <mat-tab-group [backgroundColor]="'primary'">
+    <mat-tab-group [backgroundColor]="'primary'" [(selectedIndex)]="selectedTab">
       @if (currentDisplay) {
         @if (currentDisplay.count() > 0) {
           <mat-tab label="File View">
