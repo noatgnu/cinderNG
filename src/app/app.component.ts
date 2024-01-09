@@ -4,11 +4,13 @@ import { RouterOutlet } from '@angular/router';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {WebService} from "./web.service";
 import {WebsocketService} from "./websocket.service";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatToolbarModule],
+  imports: [CommonModule, RouterOutlet, MatToolbarModule, MatButtonModule, MatIconModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
