@@ -81,36 +81,38 @@
   </div>
 </div>
 @if (form.value['server'] !== '' && form.value['server'] !== null && form.value['server'] !== 'None selected') {
-  <mat-tab-group [backgroundColor]="'primary'">
-    @if (currentDisplay) {
-      @if (currentDisplay.count() > 0) {
-        <mat-tab label="File View">
-          <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
-            <h1>Results:</h1>
-            @for (f of currentDisplay; track f) {
-              <app-file-view (viewProjectEvent)="openProjectDialog($event)" [data]="f.data" [server]="form.value['server']" [pyreName]="form.value['pyreName']" [found_lines]="f.found_lines" [found_terms]="f.found_terms" [analysis]="f.analysis" [found_line_term_map]="f.found_line_term_map"></app-file-view>
-            } @empty {
-              <p>No results yet</p>
-            }
-          </div>
-        </mat-tab>
-      }
-    }
-    @if (resultProject[form.value['server']]) {
-      @if (resultProject[form.value['server']].length > 0) {
-        <mat-tab label="Project View">
-          <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
-            <h1>Results:</h1>
-            @for (p of resultProject[form.value.server]; track p.id) {
-              @if (projectToFileMap[p.id]) {
-                <app-project-view [data]="p" [files]="projectToFileMap[p.id]"></app-project-view>
+  <div style="padding: 20px">
+    <mat-tab-group [backgroundColor]="'primary'">
+      @if (currentDisplay) {
+        @if (currentDisplay.count() > 0) {
+          <mat-tab label="File View">
+            <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
+              <h1>Results:</h1>
+              @for (f of currentDisplay; track f) {
+                <app-file-view (viewProjectEvent)="openProjectDialog($event)" [data]="f.data" [server]="form.value['server']" [pyreName]="form.value['pyreName']" [found_lines]="f.found_lines" [found_terms]="f.found_terms" [analysis]="f.analysis" [found_line_term_map]="f.found_line_term_map"></app-file-view>
+              } @empty {
+                <p>No results yet</p>
               }
-            }
-          </div>
-        </mat-tab>
+            </div>
+          </mat-tab>
+        }
       }
-    }
-  </mat-tab-group>
+      @if (resultProject[form.value['server']]) {
+        @if (resultProject[form.value['server']].length > 0) {
+          <mat-tab label="Project View">
+            <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
+              <h1>Results:</h1>
+              @for (p of resultProject[form.value.server]; track p.id) {
+                @if (projectToFileMap[p.id]) {
+                  <app-project-view [data]="p" [files]="projectToFileMap[p.id]"></app-project-view>
+                }
+              }
+            </div>
+          </mat-tab>
+        }
+      }
+    </mat-tab-group>
+  </div>
 }
 
 
