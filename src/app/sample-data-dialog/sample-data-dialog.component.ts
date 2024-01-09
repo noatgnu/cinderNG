@@ -79,8 +79,9 @@ export class SampleDataDialogComponent {
   }
 
   async saveAsDataURI() {
+    const plotlyDiv = this.plotlyService.getInstanceByDivId('sample-data-bar-chart')
     const plotly = await this.plotlyService.getPlotly()
-    plotly.toImage(this.graphData, {format: 'png', width: this.graphLayout.width, height: this.graphLayout.height}).then((dataURI: string) => {
+    plotly.toImage(plotlyDiv, {format: 'png', width: this.graphLayout.width, height: this.graphLayout.height}).then((dataURI: string) => {
       console.log(dataURI)
     })
   }
