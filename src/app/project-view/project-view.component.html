@@ -6,15 +6,24 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>{{data.data.description}}</p>
+      <p><span style="color: darkred">Descriptions:</span> {{data.data.description}}</p>
       <mat-list>
         @for (f of files; track f.id) {
           <mat-list-item>
             <span matListItemTitle>
-              {{f.data[0].name}}
+              File name: {{f.data[0].name}}
             </span>
             <span matListItemLine>
-              {{f.data[0].description}}
+              File ID: {{f.id}}
+            </span>
+            <span matListItemLine>
+              Description: {{f.data[0].description}}
+            </span>
+            <span matListItemLine>
+              File type: {{f.data[0].file_type}}
+            </span>
+            <span matListItemLine>
+              File category: {{f.data[0].file_category}}
             </span>
           </mat-list-item>
         }
